@@ -35,7 +35,7 @@
             <div id="errorMessage" class="error-message" style="display: none;"></div>
         </form>
         <div class="login-link">
-            Já tem uma conta? <a href="login.html">Faça login</a>
+            Já tem uma conta? <a href="index.html">Faça login</a>
         </div>
     </div>
 
@@ -75,7 +75,7 @@
 
                 if (response.ok) {
                     alert('Registro realizado com sucesso! Você será redirecionado para a página de login.');
-                    window.location.href = 'login.html';
+                    window.location.href = 'index.html';
                 } else {
                     errorMessage.textContent = data.message || 'Falha ao registrar. Tente novamente.';
                     errorMessage.style.display = 'block';
