@@ -1,0 +1,265 @@
+/* =========================================== */
+/* ESTILOS ESPECÍFICOS DA PÁGINA transacoes.html */
+/* =========================================== */
+
+/* Estilos do Container Principal - AJUSTADO PARA OCUPAR MAIS LARGURA */
+.container {
+    background-color: #fff;
+    padding: 25px; /* Mantido o padding original de transacoes.css */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 90%; /* Ocupa mais largura, como em consultar_clientes.css */
+    max-width: 1400px; /* Um max-width maior, como em consultar_clientes.css */
+    margin: 20px auto; /* Padronizado com consultar_clientes.css */
+    flex-grow: 1;
+}
+
+h2 {
+    color: black; /* Mantido preto, como estava em transacoes.css */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.summary-box {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 25px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.summary-item {
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: bold;
+    flex: 1 1 30%;
+    min-width: 150px;
+}
+
+.summary-item.receitas {
+    color: #28a745;
+}
+
+.summary-item.despesas {
+    color: #dc3545;
+}
+
+.summary-item.saldo {
+    color: #007bff;
+}
+
+.form-section {
+    margin-top: 25px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="date"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+/* Estilo para o botão de Adicionar Transação (no formulário) */
+.form-section button[type="submit"] {
+    background-color: #007bff; /* Azul padrão */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em; /* Ajustado para ser consistente */
+    transition: background-color 0.3s ease;
+    /* Remover margin-right se ele estiver causando espaço desnecessário */
+    margin-right: 0; 
+}
+
+.form-section button[type="submit"]:hover {
+    background-color: #0056b3; /* Tom mais escuro no hover */
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    font-size: 0.95em; /* Padronizado com consultar_clientes.css */
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px 8px; /* Padronizado com consultar_clientes.css */
+    text-align: left;
+    vertical-align: middle; /* Padronizado com consultar_clientes.css */
+}
+
+th {
+    background-color: #f2f2f2;
+    color: #333; /* Padronizado com consultar_clientes.css */
+    font-weight: bold; /* Padronizado com consultar_clientes.css */
+    border-bottom: 2px solid #ddd; /* Padronizado com consultar_clientes.css */
+}
+
+/* Estilos para a célula de Ações na tabela de transações */
+.actions-cell {
+    white-space: nowrap;
+    display: flex; /* Adicionado para alinhar botões horizontalmente */
+    justify-content: center; /* Centraliza os botões */
+    align-items: center;
+    gap: 8px; /* Espaçamento entre os botões */
+}
+
+/* Estilos para o botão Excluir na tabela (actions-cell) */
+.actions-cell .delete-button {
+    background-color: #d9534f; /* Vermelho, como em consultar_clientes.css */
+    color: white; /* Já definido no estilo base */
+    padding: 8px 12px; /* Padronizado com consultar_clientes.css */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em; /* Padronizado com consultar_clientes.css */
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex !important; /* Essencial para que width funcione */
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+    
+    /* ***** PADRONIZANDO LARGURA DO BOTÃO EXCLUIR NA TABELA ***** */
+    width: 90px !important; /* Largura fixa como em consultar_clientes.css */
+    box-sizing: border-box;
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+}
+
+.actions-cell .delete-button:hover {
+    background-color: #c82333;
+    transform: translateY(-1px);
+}
+
+/* BACK BUTTON - CORRIGIDO PARA USAR A COR PADRÃO DO TEMA (Seu botão de formulário não tem essa classe) */
+/* Este estilo é para um botão com a classe 'back-button' */
+.back-button {
+    background-color: #6c757d; /* Um cinza neutro, mais comum para "voltar" */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.back-button:hover {
+    background-color: #5a6268;
+}
+
+/* Mensagens de feedback (padronizado com Global.css, mas garantindo aqui) */
+.message-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    display: none;
+    text-align: center;
+    font-weight: bold;
+}
+
+.message-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    display: none;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Responsividade para telas menores - PADRONIZADO E OTIMIZADO */
+@media (max-width: 900px) {
+    /* Header/Nav - Assumindo que vêm do Global.css ou são copiados como no dashboard */
+    /* Removi as regras de header/nav aqui para evitar duplicação, pois elas devem vir do Global.css */
+
+    /* Estilos específicos para transacoes.html em telas menores */
+    .container {
+        padding: 15px;
+        width: 98%; /* Ocupa mais largura em telas menores */
+    }
+    .summary-box {
+        flex-direction: column;
+        align-items: center;
+    }
+    .summary-item {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    /* Torna a tabela rolavel horizontalmente em telas pequenas */
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap; 
+        width: 100%;
+        min-width: 600px; /* Garante largura mínima para tabela */
+    }
+    /* Garante que as células da tabela não quebrem a linha */
+    th, td {
+        white-space: nowrap;
+        min-width: 80px; 
+    }
+    .actions-cell {
+        flex-direction: column; /* Empilha os botões de ação */
+        align-items: stretch;
+        gap: 5px; /* Menor gap quando empilhados */
+    }
+    .actions-cell .delete-button {
+        width: 100% !important; /* Botão de exclusão ocupa 100% da largura na coluna */
+    }
+    .form-section button[type="submit"],
+    .back-button { /* Se houver botão voltar */
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+@media (max-width: 500px) {
+    .container {
+        padding: 10px;
+    }
+    h2 {
+        font-size: 1.5em;
+    }
+    .form-section {
+        padding: 15px;
+    }
+}

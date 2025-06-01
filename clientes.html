@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Novo Cliente</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./arquivos.css/global.css">
+    <link rel="stylesheet" href="./arquivos.css/clientes.css">
+</head>
+<body>
+    <header>
+        <h1><a href="dashboard.html" style="color: #ffbbcd; text-decoration: none;">Studio JéMarqui</a></h1>
+
+        <button class="hamburger-menu" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-navigation">
+            &#9776; </button>
+
+        <nav id="main-navigation">
+            <ul>
+                <li><a href="dashboard.html" class="active"><i class="fas fa-home"></i></a></li>
+
+                <li> <a href="javascript:void(0);">Clientes</a>
+                    <ul class="submenu">
+                        <li><a href="clientes.html">Cadastrar Clientes</a></li>
+                        <li><a href="consultar_clientes.html">Consultar Clientes</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Agendamentos</a>
+                    <ul class="submenu">
+                        <li><a href="agendamentos.html">Novo Agendamento</a></li>
+                        <li><a href="agendamentos_lista.html">Lista de Agendamentos</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Transações</a>
+                    <ul class="submenu">
+                        <li><a href="transacoes.html">Livro Caixa</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Usuários</a>
+                    <ul class="submenu">
+                        <li><a href="usuarios.html">Gerenciar Usuários</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Relatórios</a>
+                    <ul class="submenu">
+                        <li><a href="relatorios.html">Visualizar Relatórios</a></li>
+                    </ul>
+                </li>
+                <li><button class="logout-btn" onclick="logout()">Sair</button></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <h2>Adicionar Novo Cliente</h2>
+        <form id="addClientForm">
+            <label for="nome">Nome do Cliente:</label>
+            <input type="text" id="nome" required>
+
+            <label for="telefone">Telefone/Celular:</label>
+            <input type="tel" id="telefone" placeholder="(XX) XXXXX-XXXX" required>
+            
+            </form>
+        <div id="message"></div>
+
+        <div class="button-group">
+            <button type="submit" form="addClientForm" class="add-client-btn">Adicionar Cliente</button>
+            </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Meu Estúdio. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Funções JavaScript COPIADAS DO DASHBOARD.HTML
+        function toggleSubmenu(element) {
+            const submenu = element.nextElementSibling;
+            if (submenu && submenu.classList.contains('submenu')) {
+                if (window.innerWidth <= 900) {
+                    submenu.style.display = (submenu.style.display === 'block' || submenu.style.display === '') ? 'none' : 'block';
+                }
+            }
+        }
+
+        function logout() {
+            alert('Você foi desconectado!');
+            window.location.href = 'login.html';
+        }
+
+        // SEU CÓDIGO JAVASCRIPT EXISTENTE PARA clientes.html
+        document.addEventListener('DOMContentLoaded', function() {
+            const addClientForm = document.getElementById('addClientForm');
+            const messageDiv = document.getElementById('message');
+
+            addClientForm.addEventListener('submit', async function(event) {
+                event.preventDefault(); // Impede o recarregamento da página
+
+                const nome = document.getElementById('nome').value;
+                const telefone = document.getElementById('telefone').value;
+                // CAMPO DE EMAIL REMOVIDO DAQUI
+                // const email = document.getElementById('email').value; 
+
+                // Validação simples
+                if (!nome.trim() || !telefone.trim()) {
+                    showMessage('Por favor, preencha o nome e o telefone.', 'error');
+                    return;
+                }
+
+                try {
+                    const clientData = {
+                        name: nome, 
+                        phone: telefone
+                        // CAMPO DE EMAIL NÃO ENVIADO NO BODY
+                        // email: email
+                    };
+
+                    const response = await fetch('http://localhost:3001/api/clients', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(clientData) // Enviando apenas nome e telefone
+                    });
+
+                    const data = await response.json(); 
+
+                    if (response.ok) {
+                        showMessage(`Cliente "${data.name}" cadastrado com sucesso! ID: ${data._id}`, 'success'); 
+                        addClientForm.reset(); 
+                    } else {
+                        showMessage(data.message || 'Erro ao adicionar cliente.', 'error');
+                    }
+                } catch (error) {
+                    console.error('Erro ao adicionar cliente:', error);
+                    showMessage('Erro de conexão ou servidor.', 'error');
+                }
+            });
+
+            function showMessage(msg, type) {
+                messageDiv.textContent = msg;
+                messageDiv.className = ''; 
+                messageDiv.classList.add(type === 'success' ? 'message-success' : 'message-error');
+                messageDiv.style.display = 'block'; 
+                setTimeout(() => {
+                    messageDiv.style.display = 'none'; 
+                }, 3000);
+            }
+        });
+    </script>
+      <script src="./js/scripts.js"></script>
+<script src="./js/inactivity-logout.js"></script>
+</body>
+</html>

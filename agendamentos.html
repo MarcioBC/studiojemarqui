@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamentos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="./arquivos.css/global.css">
+    <link rel="stylesheet" href="./arquivos.css/agendamentos.css">
+</head>
+<body>
+   <header>
+        <h1><a href="dashboard.html" style="color: #ffbbcd; text-decoration: none;">Studio JéMarqui</a></h1>
+
+        <button class="hamburger-menu" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-navigation">
+            &#9776; </button>
+
+        <nav id="main-navigation">
+            <ul>
+                <li><a href="dashboard.html" class="active"><i class="fas fa-home"></i></a></li>
+
+                <li> <a href="javascript:void(0);">Clientes</a>
+                    <ul class="submenu">
+                        <li><a href="clientes.html">Cadastrar Clientes</a></li>
+                        <li><a href="consultar_clientes.html">Consultar Clientes</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Agendamentos</a>
+                    <ul class="submenu">
+                        <li><a href="agendamentos.html">Novo Agendamento</a></li>
+                        <li><a href="agendamentos_lista.html">Lista de Agendamentos</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Transações</a>
+                    <ul class="submenu">
+                        <li><a href="transacoes.html">Livro Caixa</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Usuários</a>
+                    <ul class="submenu">
+                        <li><a href="usuarios.html">Gerenciar Usuários</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Relatórios</a>
+                    <ul class="submenu">
+                        <li><a href="relatorios.html">Visualizar Relatórios</a></li>
+                    </ul>
+                </li>
+                <li><button class="logout-btn" onclick="logout()">Sair</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Novo Agendamento</h2>
+        
+        <div class="form-scroll-wrapper"> 
+            <form id="agendamentoForm">
+                <div class="form-group">
+                    <label for="clienteSelect">Cliente:</label>
+                    <select id="clienteSelect" name="clienteSelect" required>
+                        <option value="">Selecione um cliente</option>
+                    </select>
+                    <a href="clientes.html" class="add-client-button">Adicionar Cliente</a>
+                </div>
+
+                <div class="form-group">
+                    <label>Procedimentos:</label>
+                    <div id="proceduresContainer">
+                        </div>
+                    <button type="button" id="addProcedureButton">Adicionar Procedimento</button>
+                </div>
+
+                <div class="form-group">
+                    <label for="dataHora">Data e Hora:</label>
+                    <input type="datetime-local" id="dataHora" name="dataHora" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="observacoes">Observações:</label>
+                    <textarea id="observacoes" name="observacoes" rows="4"></textarea>
+                </div>
+
+                <div class="total-value">
+                    Valor Total: R$ 0.00
+                </div>
+            </form>
+
+            <div id="agendamentoMessage" class="message" style="display: none;"></div>
+
+            <div class="button-group">
+                <button type="submit" form="agendamentoForm" class="save-appointment-btn">
+                    Salvar Agendamento
+                    <span class="loading-spinner" style="display: none;"></span>
+                </button>
+                </div>
+        </div> </div>
+
+    <footer>
+        <p>&copy; 2024 Meu Estúdio. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // SEU CÓDIGO JAVASCRIPT EXISTENTE PARA agendamentos.html
+        // (A função toggleSubmenu aqui é redundante se scripts.js já a maneja de forma global,
+        // mas a manteremos por enquanto para não quebrar nada se scripts.js não estiver 100%)
+
+        // Funções que você tinha no seu script inline
+        function logout() { // Mantida por enquanto, mas idealmente também poderia ser global
+            alert('Você foi desconectado!');
+            window.location.href = 'login.html';
+        }
+
+        const agendamentoForm = document.getElementById('agendamentoForm');
+        const clienteSelect = document.getElementById('clienteSelect');
+        const proceduresContainer = document.getElementById('proceduresContainer');
+        const addProcedureButton = document.getElementById('addProcedureButton');
+        const totalValueDisplay = document.querySelector('.total-value');
+        const agendamentoMessageDiv = document.getElementById('agendamentoMessage');
+        const saveAppointmentBtn = document.querySelector('.save-appointment-btn');
+
+        const procedimentosLista = [
+            'Depilação parcial',
+            'Depilação completa',
+            'Extensão de cílios',
+            'Manutenção de cílios',
+            'Design de sobrancelhas',
+            'Outros'
+        ];
+        let contadorProcedimentos = 0;
+
+        function showMessage(message, type) {
+            agendamentoMessageDiv.textContent = message;
+            agendamentoMessageDiv.className = 'message ' + type; // Garante que a classe base 'message' seja mantida
+            agendamentoMessageDiv.style.display = 'block';
+            setTimeout(() => { agendamentoMessageDiv.style.display = 'none'; }, 3000);
+        }
+
+        function adicionarProcedimento() {
+            const currentCount = contadorProcedimentos++; // Incrementa antes de usar para garantir IDs únicos
+            const novoProcedimentoDiv = document.createElement('div');
+            novoProcedimentoDiv.classList.add('procedure-group');
+            novoProcedimentoDiv.id = `procedure_group_${currentCount}`;
+
+
+            const selectProcedimento = document.createElement('select');
+            selectProcedimento.name = `procedimento_${currentCount}`;
+            selectProcedimento.id = `procedimento_${currentCount}`;
+            selectProcedimento.setAttribute('data-index', currentCount);
+            selectProcedimento.setAttribute('required', 'true');
+
+            const optionPadrao = document.createElement('option');
+            optionPadrao.value = '';
+            optionPadrao.textContent = 'Selecione um procedimento';
+            selectProcedimento.appendChild(optionPadrao);
+
+            procedimentosLista.forEach(procedimento => {
+                const option = document.createElement('option');
+                option.value = procedimento;
+                option.textContent = procedimento;
+                selectProcedimento.appendChild(option);
+            });
+
+            const valorInput = document.createElement('input');
+            valorInput.type = 'number';
+            valorInput.name = `valorProcedimento_${currentCount}`;
+            valorInput.id = `valorProcedimento_${currentCount}`;
+            valorInput.classList.add('valor-procedimento');
+            valorInput.placeholder = 'Valor (R$)';
+            valorInput.step = '0.01';
+            valorInput.min = '0';
+            valorInput.setAttribute('required', 'true');
+
+            const especificarOutroInput = document.createElement('input');
+            especificarOutroInput.type = 'text';
+            especificarOutroInput.name = `especificarOutro_${currentCount}`;
+            especificarOutroInput.id = `especificarOutro_${currentCount}`;
+            especificarOutroInput.placeholder = 'Especificar outro';
+            especificarOutroInput.style.display = 'none'; // Começa escondido
+
+            const removerButton = document.createElement('button');
+            removerButton.type = 'button';
+            removerButton.classList.add('remove-procedure-button');
+            removerButton.innerHTML = '<i class="fas fa-trash-alt"></i> Remover';
+            removerButton.onclick = function() { // Adicionado event listener aqui
+                novoProcedimentoDiv.remove();
+                calcularValorTotal();
+            };
+
+            selectProcedimento.onchange = function() { // Adicionado event listener aqui
+                if (this.value === 'Depilação parcial') {
+                    valorInput.value = '50.00';
+                } else if (this.value === 'Depilação completa') {
+                    valorInput.value = '100.00';
+                } else if (this.value === 'Outros') {
+                    especificarOutroInput.style.display = 'inline-block';
+                    especificarOutroInput.setAttribute('required', 'true');
+                    valorInput.value = ''; // Limpa o valor se "Outros" for selecionado
+                } else {
+                    especificarOutroInput.style.display = 'none';
+                    especificarOutroInput.removeAttribute('required');
+                    especificarOutroInput.value = '';
+                }
+                calcularValorTotal();
+            };
+
+            valorInput.oninput = calcularValorTotal; // Adicionado event listener
+            especificarOutroInput.oninput = calcularValorTotal; // Adicionado event listener
+
+            novoProcedimentoDiv.appendChild(selectProcedimento);
+            novoProcedimentoDiv.appendChild(valorInput);
+            novoProcedimentoDiv.appendChild(especificarOutroInput);
+            novoProcedimentoDiv.appendChild(removerButton);
+            
+            proceduresContainer.appendChild(novoProcedimentoDiv);
+            calcularValorTotal(); // Calcula o total após adicionar
+        }
+
+        async function loadClientes() {
+            try {
+                const response = await fetch('http://localhost:3001/api/clients');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const clientes = await response.json();
+                clienteSelect.innerHTML = '<option value="">Selecione um cliente</option>'; // Limpa e adiciona a opção padrão
+                clientes.forEach(cliente => {
+                    const option = document.createElement('option');
+                    option.value = cliente._id; // Usa o ID do cliente como valor
+                    option.textContent = cliente.name;
+                    clienteSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Ocorreu um erro ao carregar os clientes:', error);
+                showMessage('Ocorreu um erro ao carregar os clientes. Verifique o console para mais detalhes.', 'error');
+            }
+        }
+
+        function calcularValorTotal() {
+            let total = 0;
+            const procedimentosGrupos = proceduresContainer.querySelectorAll('.procedure-group');
+
+            procedimentosGrupos.forEach(grupo => {
+                const valorInput = grupo.querySelector('.valor-procedimento');
+                if (valorInput && valorInput.value) { // Verifica se o input de valor existe e tem um valor
+                    const valor = parseFloat(valorInput.value);
+                    if (!isNaN(valor) && valor >= 0) {
+                        total += valor;
+                    }
+                }
+            });
+            totalValueDisplay.textContent = `Valor Total: R$ ${total.toFixed(2)}`;
+        }
+
+        if (addProcedureButton) {
+            addProcedureButton.addEventListener('click', adicionarProcedimento);
+        }
+
+        if (agendamentoForm) {
+            agendamentoForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (agendamentoMessageDiv) agendamentoMessageDiv.style.display = 'none';
+
+                if (saveAppointmentBtn) {
+                    saveAppointmentBtn.disabled = true;
+                    saveAppointmentBtn.innerHTML = 'Salvando... <span class="loading-spinner" style="display: inline-block;"></span>'; // Garante que o spinner apareça
+                }
+                
+
+                const clientId = clienteSelect.value;
+                const dataHoraValue = document.getElementById('dataHora').value;
+                
+                const agora = new Date();
+                agora.setSeconds(0, 0); // Ignora segundos para a comparação
+                const agendamentoDataHora = new Date(dataHoraValue);
+
+                if (agendamentoDataHora < agora) {
+                    showMessage('A data e hora do agendamento não podem ser no passado.', 'error');
+                    if (saveAppointmentBtn) {
+                        saveAppointmentBtn.disabled = false;
+                        saveAppointmentBtn.innerHTML = 'Salvar Agendamento';
+                    }
+                    return;
+                }
+                const observacoes = document.getElementById('observacoes').value;
+
+                const [dataExtracted, horaExtracted] = dataHoraValue.split('T'); 
+
+                if (!clientId) {
+                    showMessage('Por favor, selecione um cliente.', 'error');
+                     if (saveAppointmentBtn) {
+                        saveAppointmentBtn.disabled = false;
+                        saveAppointmentBtn.innerHTML = 'Salvar Agendamento';
+                    }
+                    return;
+                }
+
+                if (!dataHoraValue || !dataExtracted || !horaExtracted) {
+                    showMessage('Por favor, selecione a data e hora do agendamento.', 'error');
+                     if (saveAppointmentBtn) {
+                        saveAppointmentBtn.disabled = false;
+                        saveAppointmentBtn.innerHTML = 'Salvar Agendamento';
+                    }
+                    return;
+                }
+
+                const procedimentosParaEnviar = [];
+                const procedimentosGrupos = proceduresContainer.querySelectorAll('.procedure-group');
+                let hasIncompleteProcedure = false;
+
+                if (procedimentosGrupos.length === 0) {
+                    showMessage('Adicione pelo menos um procedimento.', 'error');
+                     if (saveAppointmentBtn) {
+                        saveAppointmentBtn.disabled = false;
+                        saveAppointmentBtn.innerHTML = 'Salvar Agendamento';
+                    }
+                    return;
+                }
+
+                procedimentosGrupos.forEach(grupo => {
+                    const selectProcedimento = grupo.querySelector('select[name^="procedimento_"]');
+                    const valorInput = grupo.querySelector('input[name^="valorProcedimento_"]');
+                    const especificarOutroInput = grupo.querySelector('input[name^="especificarOutro_"]');
+
+                    const procedimentoNome = selectProcedimento.value;
+                    const valor = parseFloat(valorInput.value);
+                    const especificacao = especificarOutroInput ? especificarOutroInput.value.trim() : '';
+
+
+                    if (!procedimentoNome || isNaN(valor) || valor < 0 || (procedimentoNome === 'Outros' && !especificacao)) {
+                        hasIncompleteProcedure = true;
+                    } else {
+                        procedimentosParaEnviar.push({
+                            nome: procedimentoNome === 'Outros' ? especificacao : procedimentoNome,
+                            valor: valor
+                        });
+                    }
+                });
+
+                if (hasIncompleteProcedure) {
+                    showMessage('Por favor, preencha todos os campos dos procedimentos corretamente (nome e valor).', 'error');
+                     if (saveAppointmentBtn) {
+                        saveAppointmentBtn.disabled = false;
+                        saveAppointmentBtn.innerHTML = 'Salvar Agendamento';
+                    }
+                    return;
+                }
+
+                const valorTotalCalculado = parseFloat(totalValueDisplay.textContent.replace('Valor Total: R$ ', '').replace(',', '.'));
+
+
+                const agendamentoData = {
+                    clientId: clientId,
+                    date: dataExtracted, 
+                    time: horaExtracted, 
+                    procedimentos: procedimentosParaEnviar, 
+                    observacoes: observacoes,
+                    valorTotal: valorTotalCalculado,
+                    status: 'pendente' 
+                };
+
+                try {
+                    const response = await fetch('http://localhost:3001/api/appointments', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(agendamentoData)
+                    });
+
+                    if (!response.ok) {
+                        const errorResponse = await response.json().catch(() => ({ message: 'Erro ao processar a resposta do servidor.' }));
+                        const errorMessage = errorResponse.message || `Erro desconhecido: ${response.status}`;
+                        throw new Error(`HTTP error! status: ${response.status}, message: ${errorMessage}`);
+                    }
+
+                    const result = await response.json();
+                    console.log('Agendamento salvo com sucesso:', result);
+                    showMessage('Agendamento salvo com sucesso!', 'success');
+                    agendamentoForm.reset(); 
+                    proceduresContainer.innerHTML = ''; 
+                    adicionarProcedimento(); // Adiciona um campo de procedimento em branco
+                    calcularValorTotal(); 
+
+                } catch (error) {
+                    console.error('Erro ao salvar agendamento:', error);
+                    showMessage(`Erro ao salvar agendamento: ${error.message}`, 'error');
+                } finally {
+                     if (saveAppointmentBtn) {
+                        saveAppointmentBtn.disabled = false;
+                        saveAppointmentBtn.innerHTML = 'Salvar Agendamento';
+                    }
+                }
+            });
+        }
+        
+        // Carrega clientes e adiciona o primeiro procedimento ao carregar a página
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof loadClientes === "function") loadClientes(); // Verifica se a função existe
+            if (typeof adicionarProcedimento === "function") adicionarProcedimento(); // Adiciona o primeiro campo de procedimento
+            
+            const dataHoraInput = document.getElementById('dataHora');
+            if (dataHoraInput) { // Verifica se o elemento existe
+                function atualizarMinimaDataHora() {
+                    const agora = new Date();
+                    agora.setSeconds(0, 0); 
+                    const offset = agora.getTimezoneOffset();
+                    const localNow = new Date(agora.getTime() - (offset * 60 * 1000));
+                    const minDatetime = localNow.toISOString().slice(0, 16);
+                    dataHoraInput.min = minDatetime;
+                }
+                atualizarMinimaDataHora();
+            }
+        });
+    </script>
+    <script src="./js/scripts.js"></script>
+<script src="./js/inactivity-logout.js"></script>
+</body>
+</html>

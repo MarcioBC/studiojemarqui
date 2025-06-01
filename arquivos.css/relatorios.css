@@ -1,0 +1,298 @@
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 1400px; /* Largura máxima do container no desktop */
+    margin: 20px auto;
+    flex-grow: 1;
+    text-align: left; /* Padrão para o conteúdo, pode ser sobrescrito */
+}
+
+.relatorios-title { 
+    color: #2c3e50; 
+    font-size: 28px; 
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 35px; 
+    font-weight: 700; 
+    letter-spacing: 0.5px; 
+}
+
+h2 { /* Estilo para subtítulos H2 DENTRO de #relatorioContent */
+    color: #34495e;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 10px;
+}
+
+/* ======================================= */
+/* ESTILOS DOS CONTROLES E BOTÕES DE FILTRO */
+/* ======================================= */
+.controls {
+    display: flex;
+    flex-wrap: wrap; /* Permite que os controles quebrem se não couberem na linha */
+    gap: 12px; 
+    margin-bottom: 30px;
+    align-items: center; 
+    justify-content: center; /* Centraliza o grupo de controles */
+}
+
+.date-control-group {
+    display: flex;
+    flex-direction: column; /* Label acima do input */
+    align-items: flex-start; /* Alinha label e input à esquerda */
+    gap: 5px;
+}
+
+.controls label {
+    font-weight: 600; 
+    color: #555;
+    font-size: 0.85em; 
+    margin-bottom: 0;
+}
+
+.controls input[type="date"] {
+    padding: 10px 12px; 
+    border: 1px solid #c9c9c9; 
+    border-radius: 6px; 
+    font-size: 0.95em; 
+    outline: none;
+    width: 150px; /* Largura fixa para o input de data */
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.controls input[type="date"]:focus {
+    border-color: #007bff; 
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.2); 
+}
+
+.controls button {
+    background-color: #ffbbcd; 
+    color: #2c3e50; 
+    border: none;
+    border-radius: 6px; 
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1); 
+    height: 40px; 
+    font-size: 0.9em; 
+    font-weight: 600; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+    padding: 0 15px; 
+    min-width: 100px; 
+    flex: 0 0 auto; /* Botões não crescem nem encolhem, usam seu padding/min-width */
+}
+
+.controls button:hover {
+    background-color: #da869c; 
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15); 
+}
+
+.controls button:active {
+    background-color: #c82333; 
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* ======================================= */
+/* ESTILOS DA ÁREA DE CONTEÚDO E TABELAS  */
+/* ======================================= */
+#relatorioContent {
+    background-color: #fdfdfd;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 25px;
+    min-height: 150px;
+    display: flex; /* Para o no-data-message centralizar se necessário */
+    flex-direction: column;
+    justify-content: flex-start; /* Conteúdo começa do topo */
+    align-items: stretch; /* Tabela ocupa 100% da largura de #relatorioContent */
+    overflow-x: auto; /* Permite rolagem horizontal para a tabela INTERNA */
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 40px;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.05); 
+}
+
+.no-data-message {
+    color: #888;
+    font-style: italic;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px dashed #dcdcdc; 
+    border-radius: 5px;
+    background-color: #fcfcfc;
+}
+
+table {
+    width: 100%; /* Tabela tenta ocupar 100% de #relatorioContent */
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /* min-width para a tabela se quiser forçar rolagem em #relatorioContent */
+    /* Ex: min-width: 700px; */
+}
+
+th, td {
+    border: 1px solid #e9e9e9; 
+    padding: 12px 15px;
+    text-align: left;
+    white-space: nowrap; /* Impede quebra de linha nas células da tabela */
+}
+
+th {
+    background-color: #eef4f7;
+    color: #444;
+    font-weight: 600; 
+    text-transform: uppercase;
+    font-size: 0.85em; 
+    letter-spacing: 0.2px;
+    position: sticky; /* Cabeçalho da tabela fica fixo no topo ao rolar verticalmente */
+    top: 0;
+    z-index: 1; /* Para sobrepor o conteúdo da tabela ao rolar */
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #eef2f5; 
+}
+
+.error-message {
+    color: #dc3545; 
+    font-weight: 700;
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #ffebe9;
+    border: 1px solid #dc3545;
+    border-radius: 5px;
+}
+
+/* ======================================= */
+/* RESPONSIVIDADE */
+/* ======================================= */
+@media (max-width: 900px) {
+    /* ESTILOS DE HEADER, NAV, LOGOUT-BTN, E SUBMENU MÓVEL FORAM REMOVIDOS DAQUI */
+    /* ELES DEVEM SER CONTROLADOS EXCLUSIVAMENTE PELO global.css PARA CONSISTÊNCIA */
+
+    .container {
+        padding: 20px;
+        margin: 20px auto;
+        width: 95%; /* Container principal um pouco mais largo */
+        overflow-x: auto; /* Habilita rolagem horizontal para TODO o container */
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .page-scroll-wrapper { /* Novo wrapper para o conteúdo que precisa rolar */
+        min-width: 750px; /* Defina a largura mínima que seu conteúdo precisa para não quebrar */
+                          /* Ajuste este valor conforme necessário */
+        padding-bottom: 15px; /* Espaço para a barra de rolagem não cobrir conteúdo */
+    }
+
+    .relatorios-title {
+        font-size: 22px; /* Título principal um pouco menor */
+        margin-bottom: 25px;
+    }
+
+    /* Mantém os controles flexíveis, mas não força empilhamento ou largura total */
+    .controls {
+        /* display: flex; e flex-wrap: wrap; são herdados do desktop */
+        /* justify-content: center; é herdado */
+        gap: 10px; /* Espaçamento um pouco menor entre os controles */
+        margin-bottom: 25px; /* Margem inferior ajustada */
+    }
+
+    .controls button {
+        /* min-width: 100px; e padding: 0 15px; são herdados e devem funcionar bem */
+        /* font-size: 0.9em; é herdado */
+        /* flex: 0 0 auto; é herdado */
+        height: 38px; /* Altura ligeiramente ajustada */
+    }
+
+    .date-control-group {
+        /* flex-direction: column; e align-items: flex-start; herdados */
+    }
+
+    .controls input[type="date"] {
+        /* width: 150px; é herdado */
+        padding: 8px 10px; /* Padding ligeiramente ajustado */
+        font-size: 0.9em; /* Fonte ligeiramente ajustada */
+    }
+
+    #relatorioContent {
+        padding: 20px; /* Padding interno da área do relatório */
+        /* overflow-x: auto; é herdado e continua útil para a tabela interna se ela for muito larga */
+    }
+    
+    table { /* A tabela dentro de #relatorioContent */
+        /* width: 100%; é herdado e se ajustará a #relatorioContent */
+        /* min-width pode ser usado aqui se a tabela precisar ser mais larga que #relatorioContent */
+    }
+
+    th, td { /* Células da tabela */
+        padding: 10px 8px; 
+        font-size: 0.8em; 
+    }
+    th {
+        font-size: 0.75em;
+    }
+}
+
+@media (max-width: 500px) {
+    .container {
+        padding: 15px;
+        width: 100%; /* Em telas muito pequenas, o container pode ocupar tudo */
+        border-radius: 0; /* Remove bordas arredondadas para visualização de tela cheia */
+        margin: 0;
+        box-shadow: none;
+    }
+
+    .page-scroll-wrapper {
+        min-width: 600px; /* Reduz o min-width para telas ainda menores */
+    }
+
+    .relatorios-title {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .controls {
+        gap: 8px;
+    }
+    .controls button {
+        font-size: 0.85em; 
+        height: 36px;
+        padding: 0 12px;
+        min-width: 90px;
+    }
+     .controls input[type="date"] {
+        width: 130px;
+        font-size: 0.85em;
+    }
+
+    #relatorioContent {
+        padding: 15px;
+    }
+
+    th, td {
+        padding: 8px 5px; 
+        font-size: 0.7em; 
+    }
+    th {
+        font-size: 0.65em;
+    }
+}

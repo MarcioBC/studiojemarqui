@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultar Clientes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./arquivos.css/global.css">
+    <link rel="stylesheet" href="./arquivos.css/consultar_clientes.css">
+</head>
+<body>
+    <header>
+        <h1><a href="dashboard.html" style="color: #ffbbcd; text-decoration: none;">Studio JéMarqui</a></h1>
+
+        <button class="hamburger-menu" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-navigation">
+            &#9776; </button>
+
+        <nav id="main-navigation">
+            <ul>
+                <li><a href="dashboard.html" class="active"><i class="fas fa-home"></i></a></li>
+
+                <li> <a href="javascript:void(0);">Clientes</a>
+                    <ul class="submenu">
+                        <li><a href="clientes.html">Cadastrar Clientes</a></li>
+                        <li><a href="consultar_clientes.html">Consultar Clientes</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Agendamentos</a>
+                    <ul class="submenu">
+                        <li><a href="agendamentos.html">Novo Agendamento</a></li>
+                        <li><a href="agendamentos_lista.html">Lista de Agendamentos</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Transações</a>
+                    <ul class="submenu">
+                        <li><a href="transacoes.html">Livro Caixa</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Usuários</a>
+                    <ul class="submenu">
+                        <li><a href="usuarios.html">Gerenciar Usuários</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Relatórios</a>
+                    <ul class="submenu">
+                        <li><a href="relatorios.html">Visualizar Relatórios</a></li>
+                    </ul>
+                </li>
+                <li><button class="logout-btn" onclick="logout()">Sair</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Lista de Clientes</h2>
+        <div id="message" class="message" style="display:none;"></div> <table id="clientesTable">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Meu Estúdio. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Funções JavaScript COPIADAS DO DASHBOARD.HTML
+        function toggleSubmenu(element) {
+            const submenu = element.nextElementSibling;
+            if (submenu && submenu.classList.contains('submenu')) {
+                if (window.innerWidth <= 900) {
+                    submenu.style.display = (submenu.style.display === 'block' || submenu.style.display === '') ? 'none' : 'block';
+                }
+            }
+        }
+
+        function logout() {
+            alert('Você foi desconectado!');
+            window.location.href = 'login.html';
+        }
+
+        // SEU CÓDIGO JAVASCRIPT EXISTENTE PARA consultar_clientes.html
+        const clientesTableBody = document.getElementById('clientesTable').getElementsByTagName('tbody')[0];
+        const messageDiv = document.getElementById('message'); // Referência para a div de mensagens
+
+        // Função para exibir mensagens
+        function showMessage(msg, type) {
+            messageDiv.textContent = msg;
+            messageDiv.className = `message ${type === 'success' ? 'message-success' : 'message-error'}`;
+            messageDiv.style.display = 'block';
+            setTimeout(() => { messageDiv.style.display = 'none'; }, 3000);
+        }
+
+        async function loadClientes() {
+            try {
+                const response = await fetch('http://localhost:3001/api/clients');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const clientes = await response.json();
+                clientesTableBody.innerHTML = ''; // Limpa a tabela antes de popular
+
+                if (clientes.length === 0) {
+                    clientesTableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">Nenhum cliente cadastrado.</td></tr>';
+                    return;
+                }
+
+                clientes.forEach(cliente => {
+                    const row = clientesTableBody.insertRow();
+                    const nomeCell = row.insertCell();
+                    const telefoneCell = row.insertCell();
+                    const actionsCell = row.insertCell();
+                    actionsCell.classList.add('actions');
+
+                    nomeCell.textContent = cliente.name;
+                    telefoneCell.textContent = cliente.phone;
+
+                    // Criando os botões de forma mais consistente
+                    const anamneseButton = createActionButton('Anamnese', 'anamnese-button', () => gerarLinkAnamnese(cliente._id));
+                    const editButton = createActionButton('Editar', 'edit-button', () => window.location.href = `clientes_editar.html?id=${cliente._id}`);
+                    const deleteButton = createActionButton('Excluir', 'delete-button', () => deleteCliente(cliente._id));
+                    
+                    actionsCell.appendChild(anamneseButton);
+                    actionsCell.appendChild(editButton);
+                    actionsCell.appendChild(deleteButton);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar clientes:', error);
+                showMessage('Erro ao carregar a lista de clientes.', 'error');
+            }
+        }
+
+        // Nova função para criar botões de ação de forma padronizada
+        function createActionButton(text, className, onClickHandler) {
+            const button = document.createElement('button'); // Criar sempre como <button>
+            button.textContent = text;
+            button.classList.add('action-btn', className); // Adiciona 'action-btn' para estilo base
+            button.onclick = onClickHandler;
+            return button;
+        }
+
+        // Função para gerar o link e exibir/copiar
+        function gerarLinkAnamnese(clientId) {
+            const BASE_URL_SERVER = 'http://localhost:3001'; 
+            const anamneseLink = `${BASE_URL_SERVER}/anamnese-ficha/${clientId}`; 
+
+            const tempInput = document.createElement('input');
+            document.body.appendChild(tempInput);
+            tempInput.value = anamneseLink;
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999); 
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            alert(`Link da Ficha de Anamnese para ${clientId.substring(0, 6)} copiado: ${anamneseLink}`);
+        }
+
+        async function deleteCliente(id) {
+            if (confirm("Tem certeza que deseja excluir este cliente?")) {
+                try {
+                    const response = await fetch(`http://localhost:3001/api/clients/${id}`, {
+                        method: 'DELETE',
+                    });
+                    if (response.ok) {
+                        showMessage('Cliente excluído com sucesso!', 'success');
+                        loadClientes(); 
+                    } else {
+                        const errorData = await response.json();
+                        showMessage(`Erro ao excluir cliente: ${errorData.message || 'Erro desconhecido'}`, 'error');
+                    }
+                } catch (error) {
+                    console.error('Erro ao excluir cliente:', error);
+                    showMessage('Erro ao excluir o cliente.', 'error');
+                }
+            }
+        }
+
+        loadClientes();
+    </script>
+    <script src="./js/scripts.js"></script>
+<script src="./js/inactivity-logout.js"></script>
+</body>
+</html>

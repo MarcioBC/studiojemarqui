@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Usuários</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./arquivos.css/global.css">
+    <link rel="stylesheet" href="./arquivos.css/usuarios.css">
+    
+</head>
+<body>
+    <header>
+        <h1><a href="dashboard.html" style="color: #ffbbcd; text-decoration: none;">Studio JéMarqui</a></h1>
+
+        <button class="hamburger-menu" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-navigation">
+            &#9776; </button>
+
+        <nav id="main-navigation">
+            <ul>
+                <li><a href="dashboard.html" class="active"><i class="fas fa-home"></i></a></li>
+
+                <li> <a href="javascript:void(0);">Clientes</a>
+                    <ul class="submenu">
+                        <li><a href="clientes.html">Cadastrar Clientes</a></li>
+                        <li><a href="consultar_clientes.html">Consultar Clientes</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Agendamentos</a>
+                    <ul class="submenu">
+                        <li><a href="agendamentos.html">Novo Agendamento</a></li>
+                        <li><a href="agendamentos_lista.html">Lista de Agendamentos</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Transações</a>
+                    <ul class="submenu">
+                        <li><a href="transacoes.html">Livro Caixa</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Usuários</a>
+                    <ul class="submenu">
+                        <li><a href="usuarios.html">Gerenciar Usuários</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Relatórios</a>
+                    <ul class="submenu">
+                        <li><a href="relatorios.html">Visualizar Relatórios</a></li>
+                    </ul>
+                </li>
+                <li><button class="logout-btn" onclick="logout()">Sair</button></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <h2>Gerenciamento de Usuários</h2>
+        <div id="message" class="message" style="display:none;"></div> <div id="userListContainer" class="table-responsive">
+            <table class="user-table">
+                <thead>
+                    <tr>
+                        <th>Nome de Usuário</th>
+                        <th>Email</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    </tbody>
+            </table>
+            <p id="loadingMessage" style="text-align: center; margin-top: 20px;">Carregando usuários...</p>
+        </div>
+
+        <div class="bottom-buttons-group">
+            <button class="btn btn-refresh-list" onclick="refreshUserList()">Atualizar Lista</button>
+            <button class="btn btn-register-new-user" onclick="openUserModal('register')"> Novo Usuário</button>
+        </div>
+    </div>
+
+    <div id="userModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeUserModal()">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <form id="userForm">
+                <input type="hidden" id="userId" name="userId">
+                <div class="form-group">
+                    <label for="username">Nome de Usuário:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" name="password" placeholder="Deixe em branco para manter a senha atual (apenas em edição)">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar Senha:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword">
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </form>
+            <div id="modalMessage" class="message" style="display:none;"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Meu Estúdio. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Funções JavaScript COPIADAS DO DASHBOARD.HTML
+        function toggleSubmenu(element) {
+            const submenu = element.nextElementSibling;
+            if (submenu && submenu.classList.contains('submenu')) {
+                // Em telas pequenas (mobile), toogle o display
+                if (window.innerWidth <= 900) {
+                    submenu.style.display = (submenu.style.display === 'block' || submenu.style.display === '') ? 'none' : 'block';
+                }
+            }
+        }
+
+        function logout() {
+            alert('Você foi desconectado!');
+            // Redireciona para a página de login
+            window.location.href = 'login.html';
+        }
+
+        // SEU CÓDIGO JAVASCRIPT EXISTENTE PARA usuarios.html
+        const usersTableBody = document.getElementById('usersTableBody');
+        const loadingMessage = document.getElementById('loadingMessage');
+        const userModal = document.getElementById('userModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const userForm = document.getElementById('userForm');
+        const userIdInput = document.getElementById('userId');
+        const usernameInput = document.getElementById('username');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const messageDiv = document.getElementById('message'); // Para mensagens gerais da lista
+        const modalMessageDiv = document.getElementById('modalMessage'); // Para mensagens dentro do modal
+
+        // Função para exibir mensagens (geral)
+        function showMessage(msg, type, targetDiv = messageDiv) {
+            targetDiv.textContent = msg;
+            targetDiv.className = `message ${type === 'success' ? 'message-success' : 'message-error'}`;
+            targetDiv.style.display = 'block';
+            setTimeout(() => { targetDiv.style.display = 'none'; }, 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchUsers(); // Carrega os usuários ao carregar a página
+            
+            // Event listener para o formulário do modal
+            userForm.addEventListener('submit', handleUserFormSubmit);
+        });
+
+        async function fetchUsers() {
+            if (loadingMessage) loadingMessage.style.display = 'block';
+            if (usersTableBody) usersTableBody.innerHTML = ''; 
+
+            try {
+                const response = await fetch('http://localhost:3001/api/users');
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || `Erro HTTP! Status: ${response.status}`);
+                }
+                const users = await response.json();
+                console.log('Usuários recebidos:', users); 
+                displayUsers(users);
+            } catch (error) {
+                console.error('Falha ao buscar usuários:', error);
+                const userListContainer = document.getElementById('userListContainer');
+                if (userListContainer) {
+                    userListContainer.innerHTML = `<p class="message error">Erro ao carregar os usuários: ${error.message}. Por favor, tente novamente mais tarde.</p>`;
+                }
+            } finally {
+                if (loadingMessage) loadingMessage.style.display = 'none';
+            }
+        }
+
+        function displayUsers(users) {
+            if (!usersTableBody) {
+                console.error("Elemento 'usersTableBody' não encontrado.");
+                return;
+            }
+
+            usersTableBody.innerHTML = ''; 
+
+            if (users.length === 0) {
+                usersTableBody.innerHTML = '<tr><td colspan="3" style="text-align: center;">Nenhum usuário cadastrado.</td></tr>';
+                return;
+            }
+
+            users.forEach(user => {
+                const row = usersTableBody.insertRow();
+                const usernameCell = row.insertCell();
+                const emailCell = row.insertCell();
+                const actionsCell = row.insertCell(); 
+
+                usernameCell.textContent = user.username;
+                emailCell.textContent = user.email;
+
+                actionsCell.classList.add('actions'); 
+                actionsCell.innerHTML = `
+                    <button class="action-btn edit-btn" onclick="openUserModal('edit', '${user._id}')">Editar</button>
+                    <button class="action-btn delete-btn" onclick="deleteUser('${user._id}', '${user.username}')">Excluir</button>
+                `;
+            });
+        }
+
+        function openUserModal(mode, userId = null) {
+            userForm.reset(); // Limpa o formulário
+            modalMessageDiv.style.display = 'none'; // Oculta mensagens anteriores do modal
+            passwordInput.required = false; // Senha não obrigatória por padrão (para edição)
+            confirmPasswordInput.required = false;
+
+            if (mode === 'register') {
+                modalTitle.textContent = 'Cadastrar Novo Usuário';
+                userIdInput.value = ''; // Garante que o ID esteja vazio para novo cadastro
+                passwordInput.required = true; // Senha obrigatória para novo cadastro
+                confirmPasswordInput.required = true;
+            } else if (mode === 'edit' && userId) {
+                modalTitle.textContent = 'Editar Usuário';
+                userIdInput.value = userId; // Define o ID do usuário a ser editado
+                loadUserForEdit(userId); // Carrega os dados do usuário
+            }
+            userModal.style.display = 'flex'; // Exibe o modal
+        }
+
+        function closeUserModal() {
+            userModal.style.display = 'none'; // Esconde o modal
+        }
+
+        async function loadUserForEdit(userId) {
+            try {
+                const response = await fetch(`http://localhost:3001/api/users/${userId}`);
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || `Erro HTTP! Status: ${response.status}`);
+                }
+                const user = await response.json();
+                usernameInput.value = user.username;
+                emailInput.value = user.email;
+                // Senha e confirmar senha não são pré-preenchidas por segurança
+                // O usuário só preenche se quiser alterar a senha
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuário para edição:', error);
+                showMessage(`Erro ao carregar dados: ${error.message}`, 'error', modalMessageDiv);
+                closeUserModal(); // Fecha o modal em caso de erro
+            }
+        }
+
+        async function handleUserFormSubmit(event) {
+            event.preventDefault();
+
+            const userId = userIdInput.value;
+            const username = usernameInput.value.trim();
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            if (!username || !email) {
+                showMessage('Nome de usuário e email são obrigatórios.', 'error', modalMessageDiv);
+                return;
+            }
+
+            if (userId === '' && (!password || !confirmPassword)) { // Novo usuário e senhas vazias
+                showMessage('A senha e a confirmação são obrigatórias para um novo usuário.', 'error', modalMessageDiv);
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showMessage('As senhas não coincidem.', 'error', modalMessageDiv);
+                return;
+            }
+            
+            let url = 'http://localhost:3001/api/users';
+            let method = 'POST';
+            let bodyData = { username, email, password };
+
+            if (userId) { // Se for edição
+                url = `http://localhost:3001/api/users/${userId}`;
+                method = 'PUT';
+                // Se a senha estiver vazia na edição, não a envie para não alterar
+                if (password === '') {
+                    delete bodyData.password;
+                }
+            }
+
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(bodyData)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.message || 'Erro desconhecido.');
+                }
+
+                showMessage(result.message || `Usuário ${userId ? 'atualizado' : 'cadastrado'} com sucesso!`, 'success');
+                closeUserModal();
+                fetchUsers(); // Atualiza a lista após sucesso
+            } catch (error) {
+                console.error('Erro ao salvar usuário:', error);
+                showMessage(`Erro: ${error.message}`, 'error', modalMessageDiv);
+            }
+        }
+
+        async function deleteUser(userId, username) {
+            if (confirm(`Tem certeza que deseja excluir o usuário "${username}"?`)) {
+                try {
+                    const response = await fetch(`http://localhost:3001/api/users/${userId}`, {
+                        method: 'DELETE',
+                    });
+
+                    const result = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(result.message || 'Erro desconhecido.');
+                    }
+
+                    showMessage(result.message || `Usuário "${username}" excluído com sucesso!`, 'success');
+                    fetchUsers(); // Atualiza a lista
+                } catch (error) {
+                    console.error('Erro ao excluir usuário:', error);
+                    showMessage(`Erro ao excluir usuário: ${error.message}`, 'error');
+                }
+            }
+        }
+
+        function refreshUserList() {
+            fetchUsers();
+        }
+    </script>
+    <script src="./js/scripts.js"></script>
+<script src="./js/inactivity-logout.js"></script>
+</body>
+</html>

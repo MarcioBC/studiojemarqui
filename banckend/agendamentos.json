@@ -1,0 +1,17 @@
+[
+  {
+    "clientId": "1",
+    "data": "2025-05-24",
+    "hora": "23:58",
+    "procedimentos": [
+      {
+        "nome": "Depilação parcial",
+        "valor": 10
+      }
+    ],
+    "observacoes": "",
+    "valorTotal": 10,
+    "_id": "1",
+    "status": "pendente"
+  }
+]

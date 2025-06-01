@@ -1,0 +1,274 @@
+/* Estilos do Container Principal */
+.container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 800px; /* Largura máxima do container no desktop */
+    margin: 30px auto; 
+}
+
+h2 {
+    color: black;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: bold;
+}
+
+.form-group input[type="datetime-local"],
+.form-group select,
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%; /* Ocupam 100% do .form-group */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.form-group select[multiple] {
+    height: auto; 
+}
+
+.procedures-container {
+    margin-bottom: 15px;
+}
+
+.procedure-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap; /* Permite quebra se os itens internos não couberem na linha */
+    gap: 10px; 
+}
+
+.procedure-group select {
+    flex: 3; 
+    min-width: 180px; 
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.procedure-group input[type="number"] {
+    flex: 1; 
+    min-width: 90px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.procedure-group input[type="text"] { 
+    flex: 2; 
+    min-width: 150px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.total-value {
+    margin-top: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #28a745;
+}
+
+.add-client-button {
+    background-color: #ffbbcd; 
+    color: black; 
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-top: 5px;
+    margin-left: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center; 
+    justify-content: center; 
+}
+
+.add-client-button:hover {
+    background-color: #da869c; 
+    transform: translateY(-2px);
+}
+
+.button-group {
+    display: flex; 
+    justify-content: center;
+    gap: 15px; 
+    margin-top: 30px; 
+    padding: 5px 10px;
+}
+
+.button-group button,
+.button-group .button-link {
+    min-width: 120px; 
+    padding: 12px 20px; 
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-decoration: none; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box; 
+}
+
+.button-group .save-appointment-btn {
+    background-color: #ffbbcd; 
+    color: black; 
+    border: none;
+}
+
+.button-group .save-appointment-btn:hover {
+    background-color: #da869c; 
+    transform: translateY(-2px);
+}
+
+.button-group .back-to-dashboard-btn {
+    background-color: #6c757d; 
+    color: white; 
+    border: none;
+}
+
+.button-group .back-to-dashboard-btn:hover {
+    background-color: #5a6268; 
+    transform: translateY(-2px);
+}
+
+#addProcedureButton, .remove-procedure-button {
+    background-color: #6c757d;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-top: 5px;
+    margin-left: 5px;
+    transition: background-color 0.3s ease;
+}
+
+#addProcedureButton:hover, .remove-procedure-button:hover {
+    background-color: #5a6268;
+}
+
+#agendamentoMessage {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: none; 
+}
+#agendamentoMessage.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+#agendamentoMessage.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, .3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 900px) {
+    /* REMOVIDOS OS ESTILOS DE HEADER, NAV, LOGOUT-BTN DAQUI. */
+    /* ELES DEVEM SER CONTROLADOS APENAS PELO global.css */
+
+    .container {
+        padding: 20px; 
+        width: 95%; 
+        overflow-x: auto; /* Habilita rolagem horizontal para o container */
+        -webkit-overflow-scrolling: touch; /* Melhora rolagem em iOS */
+    }
+
+    .form-scroll-wrapper {
+        min-width: 700px; /* Largura mínima para o conteúdo do formulário antes de rolar */
+                          /* Ajuste este valor conforme a largura desejada para o layout não quebrado */
+        padding-bottom: 15px; /* Espaço para a barra de rolagem não cobrir conteúdo */
+    }
+
+    /* Mantém o layout dos grupos de procedimento flexível mas sem forçar empilhamento */
+    .procedure-group {
+        /* flex-direction: row; é o padrão de display:flex */
+        /* align-items: center; é o padrão */
+        /* Os min-width nos inputs/selects dentro de .procedure-group ajudarão aqui */
+    }
+
+    /* Impede que inputs/selects dentro de .procedure-group tomem 100% da largura */
+    .procedure-group select,
+    .procedure-group input[type="number"],
+    .procedure-group input[type="text"] {
+        width: auto; /* Permite que usem seus tamanhos flex ou min-width definidos */
+        /* margin-bottom: 0; Se já houver 'gap' no .procedure-group */
+    }
+    
+    /* Mantém os botões em linha */
+    .button-group {
+        /* flex-direction: row; é o padrão */
+        /* justify-content: center; é o padrão */
+    }
+
+    .button-group button,
+    .button-group .button-link {
+        /* width: auto; é o padrão */
+        /* min-width: 120px; é herdado (ou pode ser redefinido se necessário) */
+    }
+        
+    h2 {
+        font-size: 1.5em;
+    }
+}
+
+/* Ajustes adicionais para telas muito pequenas, se necessário */
+@media (max-width: 500px) {
+    .container {
+        padding: 15px;
+    }
+    .form-scroll-wrapper {
+        min-width: 600px; /* Pode ajustar o min-width para telas ainda menores */
+    }
+
+    h2 {
+        font-size: 1.3em;
+    }
+    /* Outros ajustes finos de fonte/padding podem ser feitos aqui se o layout de 700px/600px ainda for muito grande */
+}

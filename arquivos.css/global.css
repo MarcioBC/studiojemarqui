@@ -1,0 +1,326 @@
+/* ======================================= */
+/* ESTILOS GLOBAIS E DE LAYOUT BASE        */
+/* ======================================= */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* ======================================= */
+/* ESTILOS DO CABEÇALHO (HEADER) E NAVEGAÇÃO */
+/* ======================================= */
+header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 15px 30px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 15px;
+}
+
+header h1 a {
+    color: #ffbbcd;
+    text-decoration: none;
+}
+
+.hamburger-menu {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+nav {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0; 
+    display: inline-flex;
+    flex-wrap: wrap;
+}
+
+nav ul li {
+    position: relative;
+    margin: 0 10px;
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+nav ul li:last-child {
+    margin-right: 0;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 5px;
+    transition: color 0.3s ease, transform 0.2s ease;
+    position: relative;
+    display: block;
+    white-space: nowrap;
+    box-sizing: border-box; 
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ffbbcd;
+    transition: width 0.3s ease;
+}
+
+nav ul li a:hover::after,
+nav ul li a.active::after {
+    width: 100%;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    color: #ffbbcd;
+    transform: translateY(-2px);
+}
+
+nav ul li a .fas,
+nav ul li a .far,
+nav ul li a .fal,
+nav ul li a .fab {
+    margin-right: 5px;
+    font-size: 1.1em;
+}
+
+nav ul li a .fa-home {
+    font-size: 1.3em;
+    margin-right: 0;
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    background-color: #3b506b;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    padding: 10px 0; 
+    margin: 0;
+    list-style: none;
+    border-radius: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    box-sizing: border-box; 
+}
+
+.submenu li {
+    margin: 0;
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+.submenu li a {
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    font-weight: 400;
+    font-size: 0.9em;
+    white-space: nowrap;
+    box-sizing: border-box; 
+}
+
+.submenu li a::after {
+    display: none;
+}
+
+.submenu li a:hover {
+    background-color: #ffccbd;
+    color: #2c3e50;
+    transform: none;
+}
+
+nav ul li:hover > .submenu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+}
+
+.logout-btn {
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-left: 10px;
+    flex-shrink: 0;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.logout-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+footer {
+    margin-top: auto;
+    padding: 20px;
+    text-align: center;
+    color: #777;
+    font-size: 0.9em;
+    background-color: #eef2f5;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* ======================================= */
+/* RESPONSIVIDADE COMPLETA                 */
+/* ======================================= */
+@media (max-width: 900px) {
+  header {
+    padding: 10px 15px;
+  }
+
+  .hamburger-menu {
+    display: block;
+    margin-left: auto;
+  }
+
+  nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: auto;
+    width: 280px;
+    max-width: 85%;
+    background-color: #2c3e50;
+    box-shadow: -3px 3px 8px rgba(0,0,0,0.2);
+    z-index: 999;
+    border-top: 1px solid #3b506b;
+    border-bottom-left-radius: 8px;
+    flex-direction: column;
+  }
+
+  nav.nav-active {
+    display: flex;
+  }
+
+  nav ul {
+    flex-direction: column;
+    width: 100%;
+    padding: 0;
+  }
+
+  nav ul li {
+    width: 100%;
+    text-align: left;
+  }
+
+  nav ul li a {
+    padding: 12px 20px;
+    display: block;
+    border-bottom: 1px solid #3b506b;
+    color: white;
+    font-size: 0.95em;
+  }
+
+  nav ul li.has-submenu-via-link > a::after {
+    content: '\25BC';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.7em;
+    
+  }
+
+  .submenu {
+    position: static;
+    display: none;
+    width: 60%;
+    margin-left: 90px;
+    padding-left: 0;
+    background-color: #34495e;
+    border-top: 1px solid #4a627a;
+    box-sizing: border-box;
+    border: 1px solid red;
+  }
+
+  .submenu.submenu-active {
+    display: block;
+  }
+
+  .submenu li a {
+    padding: 10px 20px;
+    font-size: 0.9em;
+    color: #e0e0e0;
+    border-bottom: 1px dotted #4a627a;
+    
+  }
+
+  .submenu li:last-child a {
+    border-bottom: none;
+  }
+
+  .submenu li a:hover {
+    background-color: #ffccbd;
+    color: #2c3e50;
+  }
+}
+
+@media (max-width: 500px) {
+  header h1 {
+    font-size: 18px;
+  }
+
+  .hamburger-menu {
+    font-size: 24px;
+  }
+
+  .submenu li a {
+    padding: 8px 20px;
+    font-size: 0.85em;
+  }
+}

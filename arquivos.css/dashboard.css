@@ -1,0 +1,243 @@
+.dashboard-content {
+    flex-grow: 1;
+    padding: 30px;
+    margin: 30px auto;
+    width: 90%;
+    max-width: 1400px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-content h2 {
+    color: #2c3e50;
+    font-size: 24px;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 35px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Cards de resumo */
+.dashboard-cards {
+    display: flex; /* Mantém flex para desktop */
+    justify-content: center; /* Centraliza os cards no container */
+    gap: 180px; /* Espaçamento grande para desktop */
+    margin-bottom: 40px;
+    flex-wrap: wrap; /* Permite que os cards quebrem linha no desktop se não couberem */
+}
+
+.card {
+    background-color: #eef4f7;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    flex: 1; /* Permite que os cards cresçam e ocupem espaço no desktop */
+    min-width: 220px; /* Largura mínima para cada card no desktop */
+    max-width: 300px; /* Largura máxima para cada card no desktop */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative; 
+    overflow: hidden; 
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card h3 {
+    color: #34495e;
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 2.2em;
+    font-weight: 700;
+    color: #ffbbcd; 
+    margin: 0;
+    position: relative; 
+    z-index: 2; 
+}
+
+.card .fas {
+    position: absolute;
+    bottom: 35px; 
+    left:  16px; 
+    font-size: 60px; 
+    color: rgba(255, 187, 205, 0.4); 
+    opacity: 0.6; 
+    z-index: 1; 
+    transition: transform 0.3s ease; 
+}
+
+.card:hover .fas {
+    transform: scale(1.05); 
+}
+
+/* Seção de agendamentos de hoje */
+.today-appointments {
+    background-color: #fdfdfd;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 25px;
+    margin-top: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow-x: auto; 
+    -webkit-overflow-scrolling: touch; 
+}
+
+.today-appointments h3 {
+    color: #34495e;
+    font-size: 24px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.no-appointments-message {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    padding: 20px;
+    border: 1px dashed #dcdcdc;
+    border-radius: 5px;
+    background-color: #fcfcfc;
+}
+
+.appointments-table {
+    width: 100%; 
+    border-collapse: collapse;
+    margin-top: 20px;
+    /* min-width: 600px; */ 
+}
+
+.appointments-table th,
+.appointments-table td {
+    border: 1px solid #e9e9e9;
+    padding: 12px 15px;
+    text-align: left;
+    white-space: nowrap; 
+}
+
+.appointments-table th {
+    background-color: #eef4f7;
+    color: #444;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85em;
+    letter-spacing: 0.2px;
+    position: sticky; 
+    top: 0; 
+    z-index: 10; 
+}
+
+.appointments-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.appointments-table tbody tr:hover {
+    background-color: #eef2f5;
+}
+
+@media (max-width: 900px) {
+    .dashboard-content {
+        padding: 20px;
+        margin: 20px auto;
+        width: 98%;
+    }
+
+    /* CARDS AGORA COM ROLAGEM HORIZONTAL NO MOBILE */
+    .dashboard-cards {
+        /* display: flex; é herdado do desktop */
+        flex-direction: row;      /* Garante que os cards fiquem em linha */
+        flex-wrap: nowrap;        /* Impede que os cards quebrem para a próxima linha */
+        overflow-x: auto;         /* Habilita a rolagem horizontal se os cards não couberem */
+        -webkit-overflow-scrolling: touch; /* Melhora a experiência de rolagem em iOS */
+        justify-content: flex-start; /* Alinha os cards ao início do contêiner */
+        gap: 15px;                /* Espaçamento menor entre os cards na linha */
+        /* Remove align-items: center; se não desejar essa centralização vertical dos cards na linha */
+        padding-left: 15px;  /* Adiciona um padding para o primeiro card não colar na borda */
+        padding-right: 15px; /* Adiciona um padding para o último card não colar na borda ao rolar */
+        padding-bottom: 15px; /* Espaço para a barra de rolagem não sobrepor os cards */
+        box-sizing: border-box; /* Garante que o padding não aumente a largura total do container */
+    }
+
+    .card {
+        /* Remove width: 100%; e max-width: 350px; da regra anterior de empilhamento */
+        flex: 0 0 auto;          /* Cards não crescem nem encolhem, usam a largura definida */
+        width: 200px;            /* Largura definida para cada card na rolagem horizontal */
+                                 /* Ajuste este valor conforme o desejado para o visual mobile */
+        /* min-width e max-width do desktop podem ser mantidos ou removidos se width for fixo */
+        padding: 20px;           /* Padding interno do card pode ser mantido ou ajustado */
+        margin-bottom: 0;        /* Remove margem inferior, já que estão em linha e o gap cuida do espaço */
+    }
+
+    .card .fas {
+        font-size: 4.5em; /* Ícone um pouco menor para o card menor */
+        bottom: 10px;    /* Ajusta posição do ícone */
+        left: 10px;      /* Ajusta posição do ícone */
+    }
+     .card p {
+        font-size: 2em; /* Ajusta o tamanho do número no card menor */
+    }
+
+
+    .today-appointments h3 {
+        font-size: 20px;
+    }
+    
+    .appointments-table th,
+    .appointments-table td {
+        padding: 10px 8px; 
+        font-size: 0.8em; 
+    }
+    .appointments-table th {
+        font-size: 0.75em; 
+    }
+}
+
+@media (max-width: 500px) {
+    .dashboard-content {
+        padding: 15px;
+    }
+    .dashboard-content h2 {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    /* Ajustes para os cards em telas muito pequenas */
+    .card {
+        width: 180px; /* Cards ainda menores se necessário */
+        padding: 15px;
+    }
+    .card h3 {
+        font-size: 0.9em; /* Nome do card menor */
+    }
+    .card p {
+        font-size: 1.7em; /* Número no card menor */
+    }
+    .card .fas {
+        font-size: 4em;
+        bottom: 5px;
+        left: 5px;
+    }
+
+    .today-appointments h3 {
+        font-size: 1.4em;
+    }
+
+    .appointments-table th,
+    .appointments-table td {
+        padding: 8px 6px; 
+        font-size: 0.75em; 
+    }
+    .appointments-table th {
+        font-size: 0.7em;
+    }
+}

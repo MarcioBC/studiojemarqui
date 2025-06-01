@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+  <link rel="stylesheet" href="./arquivos.css/register.css">
+</head>
+<body>
+    <div class="register-container">
+        <h2>Registre-se</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="username">Nome de Usuário:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirmar Senha:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="pin">PIN de Ativação:</label>
+                <input type="text" id="pin" name="pin" required placeholder="Digite o PIN fornecido">
+            </div>
+            <button type="submit">Registrar</button>
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+        </form>
+        <div class="login-link">
+            Já tem uma conta? <a href="login.html">Faça login</a>
+        </div>
+    </div>
+
+    <script>
+        const registerForm = document.getElementById('registerForm');
+        const errorMessage = document.getElementById('errorMessage');
+
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const pin = document.getElementById('pin').value; // Pega o valor do PIN
+
+            if (password !== confirmPassword) {
+                errorMessage.textContent = 'As senhas não coincidem.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            // Limpa mensagens de erro anteriores
+            errorMessage.textContent = '';
+            errorMessage.style.display = 'none';
+
+            try {
+                const response = await fetch('http://localhost:3001/api/register', { 
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    // Inclui o PIN no corpo da requisição
+                    body: JSON.stringify({ username, email, password, pin }), 
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    alert('Registro realizado com sucesso! Você será redirecionado para a página de login.');
+                    window.location.href = 'login.html';
+                } else {
+                    errorMessage.textContent = data.message || 'Falha ao registrar. Tente novamente.';
+                    errorMessage.style.display = 'block';
+                }
+
+            } catch (error) {
+                console.error('Erro ao registrar:', error);
+                errorMessage.textContent = 'Erro de conexão com o servidor.';
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

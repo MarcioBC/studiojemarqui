@@ -1,0 +1,229 @@
+/* ======================================= */
+/* ESTILOS ESPECÍFICOS DA PÁGINA ANAMNESE */
+/* ======================================= */
+
+/* Estilo para o cabeçalho simples com o nome do salão */
+.header-simple {
+    background-color: #ffebf1; /* Cor de fundo suave */
+    padding: 15px 0;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.header-simple h1 {
+    color: #a30000; /* Cor escura para o nome do salão */
+    margin: 0;
+    font-size: 2em; /* Tamanho da fonte maior */
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+
+.container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 90%;
+    max-width: 900px; /* Um pouco mais largo para a anamnese */
+    margin: 30px auto;
+    flex-grow: 1;
+    text-align: left; /* Alinha o texto dentro do container à esquerda */
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* Estilos para as seções da anamnese */
+.section-anamnese {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    background-color: #f9f9f9;
+}
+
+.section-anamnese h3 {
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ffbbcd; /* Linha de destaque */
+    font-size: 1.3em;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="date"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="email"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #ffbbcd;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 187, 205, 0.3);
+}
+
+/* Estilos para grupos de checkboxes/radio buttons */
+.checkbox-group label {
+    display: block; /* Cada checkbox/radio em uma nova linha */
+    margin-bottom: 5px;
+    font-weight: normal; /* Labels de opções não tão bold */
+    color: #333;
+    display: flex; /* Para alinhar input e texto */
+    align-items: center;
+}
+
+.checkbox-group input[type="checkbox"],
+.checkbox-group input[type="radio"] {
+    width: auto; /* Deixa o tamanho padrão do checkbox/radio */
+    margin-right: 10px; /* Espaço entre o input e o texto */
+    transform: scale(1.1); /* Um pouco maior para facilitar o clique */
+    flex-shrink: 0; /* Evita que o checkbox/radio encolha */
+}
+
+/* Estilo para textareas que aparecem condicionalmente */
+#outrasDoencasDetalhes,
+#medicacaoContinuaDetalhes,
+#alergiasDetalhes,
+#cirurgiasCicatrizaçãoDetalhes,
+#outrasCondicoesPeleDetalhes {
+    display: none; /* Escondido por padrão, JavaScript mostrará */
+    margin-top: 10px;
+    width: calc(100% - 20px); /* Ajusta a largura se precisar de padding */
+    margin-left: 20px; /* Pequena indentação */
+    border: 1px dashed #ccc; /* Borda tracejada para indicar opcional */
+}
+
+
+/* Estilos para o grupo de botões */
+.button-group {
+    display: flex;
+    justify-content: flex-end; /* Alinha os botões à direita */
+    gap: 15px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.button-group button {
+    padding: 12px 25px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.submit-anamnese-btn {
+    background-color: #ffbbcd;
+    color: black;
+    border: none;
+}
+
+.submit-anamnese-btn:hover {
+    background-color: #da869c;
+    transform: translateY(-2px);
+}
+
+/* O botão Voltar foi removido do HTML para a experiência do cliente */
+
+
+/* Mensagens de feedback */
+#message {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    display: none;
+    font-weight: bold;
+    text-align: center;
+}
+
+.message-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+.message-info { /* Para mensagens de "Nenhuma ficha encontrada" */
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+
+/* ======================================= */
+/* RESPONSIVIDADE (MEDIA QUERIES) */
+/* ======================================= */
+@media (max-width: 900px) {
+    .container {
+        padding: 20px;
+        width: 95%;
+    }
+    .button-group {
+        flex-direction: column; /* Empilha os botões */
+        align-items: stretch; /* Estica os botões */
+    }
+    .button-group button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 500px) {
+    .container {
+        padding: 15px;
+    }
+    h2 {
+        font-size: 1.5em;
+    }
+    .section-anamnese {
+        padding: 15px;
+    }
+    .section-anamnese h3 {
+        font-size: 1.1em;
+    }
+}

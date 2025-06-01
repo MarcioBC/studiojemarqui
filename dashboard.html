@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Principal - Meu Estúdio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./arquivos.css/dashboard.css">
+    <link rel="stylesheet" href="./arquivos.css/global.css">
+</head>
+
+<body>
+
+    <header>
+        <h1><a href="dashboard.html" style="color: #ffbbcd; text-decoration: none;">Studio JéMarqui</a></h1>
+
+        <button class="hamburger-menu" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-navigation">
+            &#9776; </button>
+
+        <nav id="main-navigation">
+            <ul>
+                <li><a href="dashboard.html" class="active"><i class="fas fa-home"></i></a></li>
+
+                <li> <a href="javascript:void(0);">Clientes</a>
+                    <ul class="submenu">
+                        <li><a href="clientes.html">Cadastrar Clientes</a></li>
+                        <li><a href="consultar_clientes.html">Consultar Clientes</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Agendamentos</a>
+                    <ul class="submenu">
+                        <li><a href="agendamentos.html">Novo Agendamento</a></li>
+                        <li><a href="agendamentos_lista.html">Lista de Agendamentos</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Transações</a>
+                    <ul class="submenu">
+                        <li><a href="transacoes.html">Livro Caixa</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Usuários</a>
+                    <ul class="submenu">
+                        <li><a href="usuarios.html">Gerenciar Usuários</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);">Relatórios</a>
+                    <ul class="submenu">
+                        <li><a href="relatorios.html">Visualizar Relatórios</a></li>
+                    </ul>
+                </li>
+                <li><button class="logout-btn" onclick="logout()">Sair</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="dashboard-content">
+        <div class="dashboard-main-section-wrapper">
+            <h2>Visão Geral do Estúdio</h2>
+
+            <div class="dashboard-cards">
+                <div class="card clients">
+                    <h3>Total de Clientes <i class="fas fa-users"></i></h3> <p id="totalClients">Carregando...</p>
+                </div>
+                <div class="card appointments">
+                    <h3>Agendamentos Hoje <i class="fas fa-calendar-alt"></i></h3> <p id="todayAppointmentsCount">Carregando...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="today-appointments">
+            <h3>Próximos Agendamentos do Dia</h3>
+            <div class="table-responsive">
+                <div id="todayAppointmentsList">
+                    <table class="appointments-table">
+                        <thead>
+                            <tr>
+                                <th>Horário</th>
+                                <th>Cliente</th>
+                                <th>Procedimento(s)</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="appointmentsTableBody">
+                            <tr><td colspan="4" style="text-align: center; padding: 20px;">Carregando agendamentos...</td></tr>
+                        </tbody>
+                    </table>
+                    <p id="noAppointmentsMessage" style="text-align: center; margin-top: 15px; display: none;">Nenhum agendamento para hoje.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Meu Estúdio. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchDashboardData();
+            // A lógica do menu hambúrguer e submenu virá do script global (scripts.js)
+        });
+
+        // REMOVIDO: function toggleSubmenu(element) { ... }
+        // Esta funcionalidade agora deve ser coberta pelo scripts.js global.
+
+        async function fetchDashboardData() {
+            const BASE_API_URL = 'http://localhost:3001/api';
+
+            try {
+                const clientsResponse = await fetch(`${BASE_API_URL}/clients`);
+                if (!clientsResponse.ok) {
+                    const errorText = await clientsResponse.text();
+                    throw new Error(`Falha ao buscar clientes. Status: ${clientsResponse.status}. Resposta: ${errorText}`);
+                }
+                const clients = await clientsResponse.json();
+                document.getElementById('totalClients').textContent = clients.length;
+            } catch (error) {
+                console.error('Erro ao buscar total de clientes:', error);
+                document.getElementById('totalClients').textContent = 'Erro';
+            }
+
+            try {
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const day = String(today.getDate()).padStart(2, '0');
+                const todayFormatted = `${year}-${month}-${day}`;
+
+                const appointmentsResponse = await fetch(`${BASE_API_URL}/relatorios/agendamentos/dia?data=${todayFormatted}`);
+
+                if (!appointmentsResponse.ok) {
+                    const errorText = await appointmentsResponse.text();
+                    throw new Error(`Falha ao buscar agendamentos de hoje. Status: ${appointmentsResponse.status}. Resposta: ${errorText}`);
+                }
+                const appointments = await appointmentsResponse.json();
+
+                document.getElementById('todayAppointmentsCount').textContent = appointments.length;
+                displayTodayAppointments(appointments);
+            } catch (error) { // ADICIONEI A CHAVE DE ABERTURA AQUI
+                console.error('Erro ao buscar agendamentos de hoje ou próximos:', error);
+                document.getElementById('todayAppointmentsCount').textContent = 'Erro';
+                document.getElementById('appointmentsTableBody').innerHTML = '<tr><td colspan="4" style="text-align: center; color: red; padding: 20px;">Erro ao carregar agendamentos. Verifique o console para detalhes.</td></tr>';
+                document.getElementById('noAppointmentsMessage').style.display = 'none';
+            } // ADICIONEI A CHAVE DE FECHAMENTO AQUI
+        }
+
+        function displayTodayAppointments(appointments) {
+            const appointmentsTableBody = document.getElementById('appointmentsTableBody');
+            const noAppointmentsMessage = document.getElementById('noAppointmentsMessage');
+
+            if (!appointmentsTableBody) return;
+            appointmentsTableBody.innerHTML = '';
+
+            if (appointments.length === 0) {
+                noAppointmentsMessage.style.display = 'block';
+                return;
+            } else {
+                noAppointmentsMessage.style.display = 'none';
+            }
+
+            appointments.sort((a, b) => {
+                const timeA = a.time ? a.time.split(':').map(Number) : [0, 0];
+                const timeB = b.time ? b.time.split(':').map(Number) : [0, 0];
+                if (timeA[0] !== timeB[0]) return timeA[0] - timeB[0];
+                return timeA[1] - timeB[1];
+            });
+
+            appointments.forEach(agendamento => {
+                const row = appointmentsTableBody.insertRow();
+                const horaFormatada = agendamento.time || 'N/A';
+                const clienteNome = agendamento.clientId ? agendamento.clientId.name : 'Desconhecido';
+                const procedimentosTexto = agendamento.procedimentos && agendamento.procedimentos.length > 0
+                                         ? agendamento.procedimentos.map(p => p.nome).join(', ')
+                                         : 'N/A';
+                const valorTotalFormatado = parseFloat(agendamento.valorTotal || 0).toFixed(2).replace('.', ',');
+
+                row.insertCell().textContent = horaFormatada;
+                row.insertCell().textContent = clienteNome;
+                row.insertCell().textContent = procedimentosTexto;
+                row.insertCell().textContent = `R$ ${valorTotalFormatado}`;
+            });
+        }
+
+        function logout() {
+            alert('Você foi desconectado!');
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <script src="./js/scripts.js"></script>
+<script src="./js/inactivity-logout.js"></script>
+ </body>
+</html>

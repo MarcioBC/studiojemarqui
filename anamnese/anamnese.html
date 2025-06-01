@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha de Anamnese - Studio JéMarqui</title>
+    <link rel="stylesheet" href="../arquivos.css/anamnese/anamnese.css">
+</head>
+<body>
+    <div class="header-simple">
+        <h1>Studio JéMarqui</h1>
+    </div>
+
+    <div class="container">
+        <h2>Ficha de Anamnese</h2>
+        <form id="anamneseForm">
+            <input type="hidden" id="clientId" name="clientId">
+            
+            <section class="section-anamnese">
+                <h3>Dados Pessoais</h3>
+                <div class="form-group">
+                    <label for="nomeCompleto">Nome Completo:</label>
+                    <input type="text" id="nomeCompleto" name="nomeCompleto" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefone">Telefone/Celular:</label>
+                    <input type="tel" id="telefone" name="telefone" required>
+                </div>
+                <div class="form-group">
+                    <label for="dataNascimento">Data de Nascimento:</label>
+                    <input type="date" id="dataNascimento" name="dataNascimento">
+                </div>
+                <div class="form-group">
+                    <label for="profissao">Profissão:</label>
+                    <input type="text" id="profissao" name="profissao">
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email">
+                </div>
+            </section>
+
+            <section class="section-anamnese">
+                <h3>Histórico de Saúde</h3>
+                <div class="form-group checkbox-group">
+                    <label>Possui alguma doença preexistente? (Marque todas que se aplicam)</label>
+                    <label><input type="checkbox" name="doencas" value="diabetes"> Diabetes</label>
+                    <label><input type="checkbox" name="doencas" value="hipertensao"> Hipertensão</label>
+                    <label><input type="checkbox" name="doencas" value="cardiacos"> Problemas Cardíacos</label>
+                    <label><input type="checkbox" name="doencas" value="respiratorios"> Problemas Respiratórios</label>
+                    <label><input type="checkbox" name="doencas" value="renais"> Problemas Renais</label>
+                    <label><input type="checkbox" name="doencas" value="cancer"> Câncer</label>
+                    <label><input type="checkbox" name="doencas" value="outrasDoencas"> Outras (especifique)</label>
+                    <textarea id="outrasDoencasDetalhes" name="outrasDoencasDetalhes" placeholder="Selecione 'Outras' e especifique aqui"></textarea>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label>Faz uso de alguma medicação contínua?</label>
+                    <label><input type="radio" name="medicacaoContinua" value="sim"> Sim</label>
+                    <label><input type="radio" name="medicacaoContinua" value="nao"> Não</label>
+                    <textarea id="medicacaoContinuaDetalhes" name="medicacaoContinuaDetalhes" placeholder="Especifique a medicação"></textarea>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label>Possui alguma alergia?</label>
+                    <label><input type="radio" name="alergia" value="sim"> Sim</label>
+                    <label><input type="radio" name="alergia" value="nao"> Não</label>
+                    <textarea id="alergiasDetalhes" name="alergiasDetalhes" placeholder="Especifique as alergias (medicamentos, cosméticos, alimentos, etc.)"></textarea>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label>Está grávida ou amamentando?</label>
+                    <label><input type="radio" name="gravidaAmamentando" value="sim"> Sim</label>
+                    <label><input type="radio" name="gravidaAmamentando" value="nao"> Não</label>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label>Fez alguma cirurgia recentemente ou possui problemas de cicatrização?</label>
+                    <label><input type="radio" name="cirurgiasCicatrização" value="sim"> Sim</label>
+                    <label><input type="radio" name="cirurgiasCicatrização" value="nao"> Não</label>
+                    <textarea id="cirurgiasCicatrizaçãoDetalhes" name="cirurgiasCicatrizaçãoDetalhes" placeholder="Especifique"></textarea>
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <label>Fumante ou Etilista?</label>
+                    <label><input type="checkbox" name="habitosVicios" value="fumante"> Fumante</label>
+                    <label><input type="checkbox" name="habitosVicios" value="etilista"> Etilista</label>
+                </div>
+            </section>
+
+            <section class="section-anamnese">
+                <h3>Condição da Pele / Tratamentos Anteriores</h3>
+                <div class="form-group">
+                    <label for="tipoPele">Tipo de Pele:</label>
+                    <select id="tipoPele" name="tipoPele">
+                        <option value="">Selecione</option>
+                        <option value="normal">Normal</option>
+                        <option value="seca">Seca</option>
+                        <option value="oleosa">Oleosa</option>
+                        <option value="mista">Mista</option>
+                        <option value="sensivel">Sensível</option>
+                    </select>
+                </div>
+                <div class="form-group checkbox-group">
+                    <label>Possui alguma condição de pele específica?</label>
+                    <label><input type="checkbox" name="condicoesPele" value="acne"> Acne</label>
+                    <label><input type="checkbox" name="condicoesPele" value="manchas"> Manchas</label>
+                    <label><input type="checkbox" name="condicoesPele" value="rosacea"> Rosácea</label>
+                    <label><input type="checkbox" name="condicoesPele" value="melasma"> Melasma</label>
+                    <label><input type="checkbox" name="condicoesPele" value="dermatite"> Dermatite</label>
+                    <label><input type="checkbox" name="condicoesPele" value="outrasCondicoesPele"> Outras (especifique)</label>
+                    <textarea id="outrasCondicoesPeleDetalhes" name="outrasCondicoesPeleDetalhes" placeholder="Selecione 'Outras' e especifique aqui"></textarea>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <label>Usa ácidos ou retinoides na pele?</label>
+                    <label><input type="radio" name="usoAcidos" value="sim"> Sim</label>
+                    <label><input type="radio" name="usoAcidos" value="nao"> Não</label>
+                </div>
+                <div class="form-group checkbox-group">
+                    <label>Faz uso regular de protetor solar?</label>
+                    <label><input type="radio" name="usoProtetorSolar" value="sim"> Sim</label>
+                    <label><input type="radio" name="usoProtetorSolar" value="nao"> Não</label>
+                </div>
+                <div class="form-group">
+                    <label for="ultimosTratamentos">Últimos tratamentos estéticos realizados (procedimento e data aproximada):</label>
+                    <textarea id="ultimosTratamentos" name="ultimosTratamentos" rows="3"></textarea>
+                </div>
+            </section>
+
+            <section class="section-anamnese">
+                <h3>Hábitos e Objetivos</h3>
+                <div class="form-group">
+                    <label for="consumoAgua">Consumo diário de água (litros):</label>
+                    <input type="number" id="consumoAgua" name="consumoAgua" step="0.1" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="qualidadeSono">Qualidade do sono:</label>
+                    <select id="qualidadeSono" name="qualidadeSono">
+                        <option value="">Selecione</option>
+                        <option value="boa">Boa</option>
+                        <option value="regular">Regular</option>
+                        <option value="ruim">Ruim</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="estresse">Nível de estresse:</label>
+                    <select id="estresse" name="estresse">
+                        <option value="">Selecione</option>
+                        <option value="baixo">Baixo</option>
+                        <option value="moderado">Moderado</option>
+                        <option value="alto">Alto</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="expectativas">Quais são seus objetivos com este tratamento ou visita ao estúdio?</label>
+                    <textarea id="expectativas" name="expectativas" rows="4"></textarea>
+                </div>
+            </section>
+
+            <section class="section-anamnese">
+                <h3>Declaração de Consentimento</h3>
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input type="checkbox" id="consentimento" name="consentimento" value="true" required>
+                        Declaro que as informações fornecidas acima são verdadeiras e completas.
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="dataPreenchimento">Data de Preenchimento:</label>
+                    <input type="date" id="dataPreenchimento" name="dataPreenchimento" required>
+                </div>
+            </section>
+
+            <div id="message"></div>
+
+            <div class="button-group">
+                <button type="submit" class="submit-anamnese-btn">Salvar Ficha</button>
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Meu Estúdio. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Funções JavaScript globais (toggleSubmenu, logout) removidas
+        // pois o cliente não terá acesso ao menu de navegação
+
+        // Função para extrair parâmetros da URL
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Função para exibir mensagens
+        function showMessage(msg, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = msg;
+            messageDiv.className = ''; 
+            if (type === 'success') {
+                messageDiv.classList.add('message-success');
+            } else if (type === 'error') {
+                messageDiv.classList.add('message-error');
+            } else if (type === 'info') { 
+                messageDiv.classList.add('message-info');
+            }
+            messageDiv.style.display = msg ? 'block' : 'none';
+            if (msg) {
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const clientId = getUrlParameter('clientId');
+            const anamneseForm = document.getElementById('anamneseForm');
+            const nomeCompletoInput = document.getElementById('nomeCompleto'); 
+            const telefoneInput = document.getElementById('telefone'); 
+            const emailInput = document.getElementById('email'); 
+            const hiddenClientIdInput = document.getElementById('clientId');
+            
+            hiddenClientIdInput.value = clientId;
+
+            if (clientId) {
+                try {
+                    // 1. Carrega dados do cliente para pré-preenchimento (Nome, Telefone, Email)
+                    const clientResponse = await fetch(`http://localhost:3001/api/clients/${clientId}`);
+                    if (!clientResponse.ok) throw new Error('Cliente não encontrado.');
+                    const clientData = await clientResponse.json();
+                    nomeCompletoInput.value = clientData.name || ''; 
+                    telefoneInput.value = clientData.phone || '';   
+                    emailInput.value = clientData.email || '';     
+                    
+                    // 2. Tenta carregar anamnese existente para esse cliente
+                    const anamneseResponse = await fetch(`http://localhost:3001/api/anamnese/${clientId}`);
+                    
+                    if (anamneseResponse.ok) {
+                        const anamneseData = await anamneseResponse.json();
+                        const latestAnamnese = Array.isArray(anamneseData) ? anamneseData[0] : anamneseData;
+
+                        nomeCompletoInput.value = latestAnamnese.nomeCompleto || nomeCompletoInput.value; 
+                        telefoneInput.value = latestAnamnese.telefone || telefoneInput.value;
+                        emailInput.value = latestAnamnese.email || emailInput.value;
+                        document.getElementById('dataNascimento').value = latestAnamnese.dataNascimento || '';
+                        document.getElementById('profissao').value = latestAnamnese.profissao || '';
+
+                        if (latestAnamnese.doencas && Array.isArray(latestAnamnese.doencas)) {
+                            latestAnamnese.doencas.forEach(val => {
+                                const checkbox = document.querySelector(`input[name="doencas"][value="${val}"]`);
+                                if (checkbox) checkbox.checked = true;
+                            });
+                        }
+                        document.getElementById('outrasDoencasDetalhes').value = latestAnamnese.qualDoencaCronica || '';
+
+                        const medicacaoRadio = document.querySelector(`input[name="medicacaoContinua"][value="${latestAnamnese.medicacaoContinua ? 'sim' : 'nao'}"]`);
+                        if(medicacaoRadio) medicacaoRadio.checked = true;
+                        document.getElementById('medicacaoContinuaDetalhes').value = latestAnamnese.qualMedicacao || '';
+                        
+                        const alergiaRadio = document.querySelector(`input[name="alergia"][value="${latestAnamnese.alergia ? 'sim' : 'nao'}"]`);
+                        if(alergiaRadio) alergiaRadio.checked = true;
+                        document.getElementById('alergiasDetalhes').value = latestAnamnese.qualAlergia || '';
+                        
+                        const gravidezRadio = document.querySelector(`input[name="gravidaAmamentando"][value="${latestAnamnese.gravidaAmamentando ? 'sim' : 'nao'}"]`);
+                        if(gravidezRadio) gravidezRadio.checked = true;
+
+                        const cirurgiaRadio = document.querySelector(`input[name="cirurgiasCicatrização"][value="${latestAnamnese.procedimentoAnterior ? 'sim' : 'nao'}"]`); // Mapeando para procedimentoAnterior
+                        if(cirurgiaRadio) cirurgiaRadio.checked = true;
+                        document.getElementById('cirurgiasCicatrizaçãoDetalhes').value = latestAnamnese.detalhesProcedimentoAnterior || ''; 
+                        
+                        if (latestAnamnese.habitosVicios && Array.isArray(latestAnamnese.habitosVicios)) {
+                            latestAnamnese.habitosVicios.forEach(val => {
+                                const checkbox = document.querySelector(`input[name="habitosVicios"][value="${val}"]`);
+                                if (checkbox) checkbox.checked = true;
+                            });
+                        }
+
+                        document.getElementById('tipoPele').value = latestAnamnese.tipoPele || '';
+                        if (latestAnamnese.condicoesPele && Array.isArray(latestAnamnese.condicoesPele)) {
+                            latestAnamnese.condicoesPele.forEach(val => {
+                                const checkbox = document.querySelector(`input[name="condicoesPele"][value="${val}"]`);
+                                if (checkbox) checkbox.checked = true;
+                            });
+                        }
+                        document.getElementById('outrasCondicoesPeleDetalhes').value = latestAnamnese.outrasCondicoesPeleDetalhes || '';
+                        
+                        const usoAcidosRadio = document.querySelector(`input[name="usoAcidos"][value="${latestAnamnese.usoAcidos ? 'sim' : 'nao'}"]`);
+                        if(usoAcidosRadio) usoAcidosRadio.checked = true;
+
+                        const usoProtetorSolarRadio = document.querySelector(`input[name="usoProtetorSolar"][value="${latestAnamnese.usoProtetorSolar ? 'sim' : 'nao'}"]`);
+                        if(usoProtetorSolarRadio) usoProtetorSolarRadio.checked = true;
+                        document.getElementById('ultimosTratamentos').value = latestAnamnese.ultimosTratamentos || '';
+
+                        document.getElementById('consumoAgua').value = latestAnamnese.consumoAgua || '';
+                        document.getElementById('qualidadeSono').value = latestAnamnese.qualidadeSono || '';
+                        document.getElementById('estresse').value = latestAnamnese.estresse || '';
+                        document.getElementById('expectativas').value = latestAnamnese.expectativas || ''; 
+                        
+                        document.getElementById('consentimento').checked = latestAnamnese.consentimento || false;
+                        document.getElementById('dataPreenchimento').value = latestAnamnese.dataPreenchimento ? latestAnamnese.dataPreenchimento.split('T')[0] : ''; 
+                        
+                        showMessage('Ficha de anamnese existente carregada para edição.', 'info');
+
+                    } else if (anamneseResponse.status === 404) {
+                        showMessage('Nenhuma ficha de anamnese encontrada para este cliente. Por favor, preencha.', 'info');
+                    } else {
+                        const errorData = await anamneseResponse.json();
+                        throw new Error(errorData.message || 'Erro ao carregar ficha de anamnese existente.');
+                    }
+                } catch (error) {
+                    console.error('Erro ao carregar dados do cliente ou anamnese:', error);
+                    showMessage('Erro ao carregar dados. Verifique a conexão ou ID do cliente. Detalhes: ' + error.message, 'error');
+                }
+            } else {
+                showMessage('Nenhum ID de cliente fornecido. Por favor, acesse via a lista de clientes.', 'error');
+                // REMOVENDO ESTA LINHA: Não desabilita mais o formulário inteiro
+                // anamneseForm.querySelectorAll('input, select, textarea, button:not(.back-button)').forEach(el => el.disabled = true);
+            }
+
+            function setupDetailToggle(inputName, textareaId, triggerValues = ['sim', 'outrasDoencas', 'outrasCondicoesPele']) {
+                const inputs = document.querySelectorAll(`input[name="${inputName}"]`);
+                const textarea = document.getElementById(textareaId);
+                
+                if (!textarea) return;
+
+                const checkVisibility = () => {
+                    let isTriggered = false;
+                    inputs.forEach(input => {
+                        if (input.checked && triggerValues.includes(input.value)) {
+                            isTriggered = true;
+                        }
+                    });
+                    textarea.style.display = isTriggered ? 'block' : 'none';
+                    if (!isTriggered) {
+                        textarea.value = ''; 
+                    }
+                };
+
+                inputs.forEach(input => {
+                    input.addEventListener('change', checkVisibility);
+                });
+                checkVisibility(); 
+            }
+            
+            setupDetailToggle('doencas', 'outrasDoencasDetalhes', ['outrasDoencas']); 
+            setupDetailToggle('medicacaoContinua', 'medicacaoContinuaDetalhes', ['sim']);
+            setupDetailToggle('alergia', 'alergiasDetalhes', ['sim']); 
+            setupDetailToggle('cirurgiasCicatrização', 'cirurgiasCicatrizaçãoDetalhes', ['sim']); 
+            setupDetailToggle('condicoesPele', 'outrasCondicoesPeleDetalhes', ['outrasCondicoesPele']); 
+
+            anamneseForm.addEventListener('submit', async function(event) {
+                event.preventDefault();
+
+                const formData = {
+                    clientId: hiddenClientIdInput.value 
+                };
+
+                anamneseForm.querySelectorAll('input, select, textarea').forEach(element => {
+                    let schemaKey = element.id; 
+
+                    if (element.name === 'doencas') { 
+                        if (!formData.doencas) formData.doencas = [];
+                        if (element.checked) formData.doencas.push(element.value);
+                    } else if (element.id === 'outrasDoencasDetalhes') {
+                        formData.qualDoencaCronica = element.value; 
+                    } else if (element.name === 'medicacaoContinua') { 
+                        if (element.checked) formData.medicacaoContinua = (element.value === 'sim'); 
+                    } else if (element.id === 'medicacaoContinuaDetalhes') {
+                        formData.qualMedicacao = element.value; 
+                    } else if (element.name === 'alergia') { 
+                        if (element.checked) formData.alergia = (element.value === 'sim');
+                    } else if (element.id === 'alergiasDetalhes') {
+                        formData.qualAlergia = element.value; 
+                    } else if (element.name === 'gravidaAmamentando') { 
+                        if (element.checked) formData.gravidaAmamentando = (element.value === 'sim');
+                    } else if (element.name === 'cirurgiasCicatrização') { 
+                        if (element.checked) formData.procedimentoAnterior = (element.value === 'sim'); 
+                    } else if (element.id === 'cirurgiasCicatrizaçãoDetalhes') {
+                        formData.detalhesProcedimentoAnterior = element.value; 
+                    } else if (element.name === 'habitosVicios') { 
+                        if (!formData.habitosVicios) formData.habitosVicios = [];
+                        if (element.checked) formData.habitosVicios.push(element.value);
+                    } else if (element.name === 'condicoesPele') { 
+                        if (!formData.condicoesPele) formData.condicoesPele = [];
+                        if (element.checked) formData.condicoesPele.push(element.value);
+                    } else if (element.id === 'outrasCondicoesPeleDetalhes') {
+                        formData.outrasCondicoesPeleDetalhes = element.value; 
+                    } else if (element.name === 'usoAcidos') { 
+                        if (element.checked) formData.usoAcidos = (element.value === 'sim');
+                    } else if (element.name === 'usoProtetorSolar') { 
+                        if (element.checked) formData.usoProtetorSolar = (element.value === 'sim');
+                    } else if (element.id === 'ultimosTratamentos') {
+                        formData.ultimosTratamentos = element.value; 
+                    } else if (element.id === 'consumoAgua') {
+                        formData.consumoAgua = parseFloat(element.value); 
+                    } else if (element.id === 'qualidadeSono') {
+                        formData.qualidadeSono = element.value;
+                    } else if (element.id === 'estresse') {
+                        formData.estresse = element.value;
+                    } else if (element.id === 'consentimento') {
+                        formData.consentimento = element.checked; 
+                    } else if (element.id === 'dataPreenchimento') {
+                        formData.dataPreenchimento = element.value; 
+                    } else {
+                        formData[schemaKey] = element.value;
+                    }
+                });
+
+                const finalAnamneseData = {
+                    clientId: formData.clientId,
+                    nomeCompleto: formData.nomeCompleto,
+                    dataNascimento: formData.dataNascimento,
+                    telefone: formData.telefone,
+                    email: formData.email,
+                    profissao: formData.profissao || '',
+                    doencaCronica: formData.doencas && formData.doencas.includes('outrasDoencas') ? true : (formData.doencas && formData.doencas.length > 0) ? true : false, // Simplificado
+                    qualDoencaCronica: formData.qualDoencaCronica || '', 
+                    medicacaoContinua: formData.medicacaoContinua || false,
+                    qualMedicacao: formData.qualMedicacao || '', 
+                    alergia: formData.alergia || false,
+                    qualAlergia: formData.qualAlergia || '', 
+                    gravidaAmamentando: formData.gravidaAmamentando || false,
+                    procedimentoAnterior: formData.procedimentoAnterior || false, 
+                    detalhesProcedimentoAnterior: formData.detalhesProcedimentoAnterior || '', 
+
+                    tipoPele: formData.tipoPele || '',
+                    condicoesPele: formData.condicoesPele || [],
+                    outrasCondicoesPeleDetalhes: formData.outrasCondicoesPeleDetalhes || '',
+                    usoAcidos: formData.usoAcidos || false,
+                    usoProtetorSolar: formData.usoProtetorSolar || false,
+                    ultimosTratamentos: formData.ultimosTratamentos || '',
+                    consumoAgua: formData.consumoAgua || 0,
+                    qualidadeSono: formData.qualidadeSono || '',
+                    estresse: formData.estresse || '',
+                    habitosVicios: formData.habitosVicios || [], // Incluído
+                    cirurgiasCicatrização: formData.cirurgiasCicatrização || false, // Incluído se for um radio
+                    
+                    expectativas: formData.expectativas || '', 
+                    dataPreenchimento: formData.dataPreenchimento,
+                    consentimento: formData.consentimento || false // Incluído
+                };
+                
+                try {
+                    const response = await fetch(`http://localhost:3001/api/anamnese/${finalAnamneseData.clientId}`, {
+                        method: 'PUT', 
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(finalAnamneseData)
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        showMessage(result.message || 'Ficha de anamnese salva com sucesso!', 'success');
+                    } else {
+                        showMessage(result.message || 'Erro ao salvar a ficha de anamnese.', 'error');
+                    }
+                } catch (error) {
+                    console.error('Erro de rede ou servidor ao salvar anamnese:', error);
+                    showMessage('Não foi possível conectar ao servidor para salvar a ficha.', 'error');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
