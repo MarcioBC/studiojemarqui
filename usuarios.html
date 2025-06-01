@@ -162,7 +162,7 @@
             if (usersTableBody) usersTableBody.innerHTML = ''; 
 
             try {
-                const response = await fetch('http://localhost:3001/api/users');
+                const response = await fetch('https://studiojemarqui.onrender.com/api/users');
                 if (!response.ok) {
                     const errorData = await response.json();
                     throw new Error(errorData.message || `Erro HTTP! Status: ${response.status}`);
@@ -236,7 +236,7 @@
 
         async function loadUserForEdit(userId) {
             try {
-                const response = await fetch(`http://localhost:3001/api/users/${userId}`);
+                const response = await fetch(`https://studiojemarqui.onrender.com/api/users/${userId}`);
                 if (!response.ok) {
                     const errorData = await response.json();
                     throw new Error(errorData.message || `Erro HTTP! Status: ${response.status}`);
@@ -277,12 +277,12 @@
                 return;
             }
             
-            let url = 'http://localhost:3001/api/users';
+            let url = 'http:/https://studiojemarqui.onrender.com/api/users';
             let method = 'POST';
             let bodyData = { username, email, password };
 
             if (userId) { // Se for edição
-                url = `http://localhost:3001/api/users/${userId}`;
+                url = `http:/https://studiojemarqui.onrender.com/api/users/${userId}`;
                 method = 'PUT';
                 // Se a senha estiver vazia na edição, não a envie para não alterar
                 if (password === '') {
@@ -317,7 +317,7 @@
         async function deleteUser(userId, username) {
             if (confirm(`Tem certeza que deseja excluir o usuário "${username}"?`)) {
                 try {
-                    const response = await fetch(`http://localhost:3001/api/users/${userId}`, {
+                    const response = await fetch(`http:/https://studiojemarqui.onrender.com/api/users/${userId}`, {
                         method: 'DELETE',
                     });
 

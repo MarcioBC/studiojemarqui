@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function fetchRelatorio(endpoint, params = {}) {
-        let url = `http://localhost:3001/api/relatorios/${endpoint}`;
+        let url = `https://studiojemarqui.onrender.com/api/relatorios/${endpoint}`;
         if (Object.keys(params).length > 0) {
             const query = new URLSearchParams(params).toString();
             url += `?${query}`;

@@ -141,7 +141,7 @@
 
     async function loadClients() {
         try {
-            const response = await fetch('http://localhost:3001/api/clients');
+            const response = await fetch('https://studiojemarqui.onrender.com/api/clients');
             if (!response.ok) throw new Error('Failed to load clients');
             const clients = await response.json();
             clienteSelect.innerHTML = '<option value="">Selecione um Cliente</option>';
@@ -159,7 +159,7 @@
 
     async function loadServices() {
         try {
-            const response = await fetch('http://localhost:3001/api/services');
+            const response = await fetch('https://studiojemarqui.onrender.com/api/services');
             if (!response.ok) throw new Error('Failed to load services');
             allServices = await response.json();
             console.log('Serviços carregados:', allServices);
@@ -286,7 +286,7 @@
 
     async function loadAgendamentoForEdit(id) {
         try {
-            const response = await fetch(`http://localhost:3001/api/appointments/${id}`);
+            const response = await fetch(`https://studiojemarqui.onrender.com/api/appointments/${id}`);
             if (!response.ok) throw new Error('Failed to load agendamento');
             const agendamento = await response.json();
 
@@ -406,7 +406,7 @@
         };
 
         try {
-            const response = await fetch(`http://localhost:3001/api/appointments/${id}`, {
+            const response = await fetch(`https://studiojemarqui.onrender.com/api/appointments/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

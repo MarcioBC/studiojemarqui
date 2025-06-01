@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchUsers() {
     try {
-        const response = await fetch('http://localhost:3001/api/users'); // Sua nova rota
+        const response = await fetch('https://studiojemarqui.onrender.com/api/users'); // Sua nova rota
         if (!response.ok) {
             // Lida com respostas HTTP que indicam erro (ex: 404, 500)
             const errorData = await response.json();

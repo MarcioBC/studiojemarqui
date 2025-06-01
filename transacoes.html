@@ -157,7 +157,7 @@
         // Função para carregar e exibir as transações
         async function loadTransactions() {
             try {
-                const response = await fetch('http://localhost:3001/api/transacoes');
+                const response = await fetch('https://studiojemarqui.onrender.com/api/transacoes');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -224,7 +224,7 @@
             };
 
             try {
-                const response = await fetch('http://localhost:3001/api/transacoes', {
+                const response = await fetch('https://studiojemarqui.onrender.com/api/transacoes', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -253,7 +253,7 @@
                 return;
             }
             try {
-                const response = await fetch(`http://localhost:3001/api/transacoes/${id}`, {
+                const response = await fetch(`https://studiojemarqui.onrender.com/api/transacoes/${id}`, {
                     method: 'DELETE',
                 });
                 const dataResponse = await response.json();
