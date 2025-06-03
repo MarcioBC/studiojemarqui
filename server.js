@@ -209,7 +209,9 @@ app.put('/api/appointments/:id', async (req, res) => {
     try {
         const appointmentData = req.body;
         if (appointmentData.date) { // Se a data estiver sendo atualizada
-            const newDate = new Date(appointmentData.date + 'T00:00:00'); // Considerar fuso horário
+            //const newDate = new Date(appointmentData.date + 'T00:00:00'); // Considerar fuso horário
+            const newDate = dayjs.tz(appointmentData.date, 'YYYY-MM-DD', 'America/Sao_Paulo').toDate();
+
             if (isNaN(newDate.getTime())) {
                 return res.status(400).json({ message: 'O formato da data para atualização é inválido.' });
             }
