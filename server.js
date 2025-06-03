@@ -143,17 +143,23 @@ app.post('/api/appointments', async (req, res) => {
         res.status(500).json({ message: 'Erro interno do servidor ao salvar o agendamento.' });
     }
 });
-
+// VOU ALTERAR ESSA ROTA PARA VER SE DA CERTO
 app.get('/api/appointments', async (req, res) => {
     try {
         const appointments = await Appointment.find().populate('clientId', 'name phone email').sort({ date: 1, time: 1 });
-        const formattedAppointments = appointments.map(app => {
-            const formattedDate = new Date(app.date).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' });
-            return {
-                _id: app._id, clientId: app.clientId, date: app.date, formattedDate, time: app.time,
-                procedimentos: app.procedimentos,
-                procedimentosNomes: app.procedimentos?.map(p => p.nome).join(', ') || 'N/A',
-                observacoes: app.observacoes, valorTotal: app.valorTotal, status: app.status
+       const formattedAppointments = appointments.map(app => {
+    const formattedDate = new Date(app.date).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+    return {
+        _id: app._id,
+        clientId: app.clientId,
+        rawDate: app.date, // UTC original, se precisar
+        date: formattedDate, // ex: 03/06/2025
+        time: app.time,
+        procedimentos: app.procedimentos,
+        procedimentosNomes: app.procedimentos?.map(p => p.nome).join(', ') || 'N/A',
+        observacoes: app.observacoes,
+        valorTotal: app.valorTotal,
+        status: app.status
             };
         });
         res.status(200).json(formattedAppointments);
@@ -162,6 +168,7 @@ app.get('/api/appointments', async (req, res) => {
     }
 });
 
+// ATÉ AQUI
 app.get('/api/appointments/:id', async (req, res) => {
     try {
         const appointment = await Appointment.findById(req.params.id).populate('clientId', 'name phone email');
