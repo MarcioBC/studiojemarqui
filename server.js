@@ -1,3 +1,11 @@
+const dayjs = require('dayjs');
+const utc = require('dayjs/plugin/utc');
+const timezone = require('dayjs/plugin/timezone');
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+
 require('dotenv').config();
 const express = require('express');
 // bodyParser foi removido, express.json() e express.urlencoded() são usados abaixo.
@@ -148,7 +156,11 @@ app.get('/api/appointments', async (req, res) => {
     try {
         const appointments = await Appointment.find().populate('clientId', 'name phone email').sort({ date: 1, time: 1 });
        const formattedAppointments = appointments.map(app => {
-    const formattedDate = new Date(app.date).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+    //const formattedDate = new Date(app.date).toLocaleDateString('pt-BR', { timeZone: 'America/Sao_Paulo' });
+           const formattedDate = dayjs(app.date)
+    .tz('America/Sao_Paulo')
+    .format('DD/MM/YYYY');
+
     return {
         _id: app._id,
         clientId: app.clientId,
