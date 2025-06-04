@@ -1,145 +1,100 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Lista de Agendamentos</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lista de Agendamentos</title>
 </head>
 <body>
-    <h1>Lista de Agendamentos</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Cliente</th>
-                <th>Procedimentos</th>
-                <th>Data</th>
-                <th>Hora</th>
-                <th>Valor Total</th>
-                <th>Status</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody id="appointmentsTableBody"></tbody>
-    </table>
+  <h1>Lista de Agendamentos</h1>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Cliente</th>
+        <th>Procedimentos</th>
+        <th>Data</th>
+        <th>Hora</th>
+        <th>Valor Total</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody id="appointmentsList"></tbody>
+  </table>
 
-    <script>
-        // Função para formatar a data no formato dd/mm/aaaa
-        function formatDateToDDMMYYYY(dateString) {
-            const date = new Date(dateString);
-            if (isNaN(date)) return dateString;
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const year = date.getFullYear();
-            return `${day}/${month}/${year}`;
+  <script>
+    async function fetchAppointments() {
+      try {
+        const response = await fetch('/api/appointments', {
+          headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Erro ao buscar agendamentos');
         }
 
-        // Função para carregar os agendamentos
-        async function loadAppointments() {
-            try {
-                const response = await fetch('/api/appointments', {
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                    }
-                });
+        const appointments = await response.json();
+        const appointmentsList = document.getElementById('appointmentsList');
+        appointmentsList.innerHTML = '';
 
-                if (!response.ok) throw new Error('Erro ao buscar agendamentos');
+        appointments.forEach(appointment => {
+          const row = document.createElement('tr');
 
-                const appointments = await response.json();
-                const tbody = document.getElementById('appointmentsTableBody');
-                tbody.innerHTML = '';
+          const clientCell = document.createElement('td');
+          clientCell.textContent = appointment.client?.name || 'Desconhecido';
+          row.appendChild(clientCell);
 
-                appointments.forEach(appointment => {
-                    const row = document.createElement('tr');
+          const proceduresCell = document.createElement('td');
+          proceduresCell.innerHTML = appointment.procedures.map(p => `
+            <div>
+              <strong>${p.name}</strong>: R$ ${parseFloat(p.price || 0).toFixed(2)}
+            </div>
+          `).join('');
+          row.appendChild(proceduresCell);
 
-                    const clientCell = document.createElement('td');
-                    clientCell.textContent = appointment.client ? appointment.client.nome : 'Cliente não encontrado';
-                    row.appendChild(clientCell);
+          const dateCell = document.createElement('td');
+          const date = new Date(appointment.date);
+          dateCell.textContent = date.toLocaleDateString('pt-BR'); // <- AQUI A CORREÇÃO
+          row.appendChild(dateCell);
 
-                    const proceduresCell = document.createElement('td');
-                    if (Array.isArray(appointment.procedures)) {
-                        proceduresCell.innerHTML = appointment.procedures.map(p => `
-                            <div>
-                                <strong>${p.nome}</strong>: R$ ${parseFloat(p.valor).toFixed(2)}
-                            </div>
-                        `).join('');
-                    } else {
-                        proceduresCell.textContent = 'Nenhum procedimento';
-                    }
-                    row.appendChild(proceduresCell);
+          const timeCell = document.createElement('td');
+          timeCell.textContent = appointment.time;
+          row.appendChild(timeCell);
 
-                    const dateCell = document.createElement('td');
-                    dateCell.textContent = formatDateToDDMMYYYY(appointment.date);
-                    row.appendChild(dateCell);
+          const totalCell = document.createElement('td');
+          totalCell.textContent = 'R$ ' + parseFloat(appointment.total || 0).toFixed(2);
+          row.appendChild(totalCell);
 
-                    const timeCell = document.createElement('td');
-                    timeCell.textContent = appointment.time;
-                    row.appendChild(timeCell);
+          const actionsCell = document.createElement('td');
+          actionsCell.innerHTML = `
+            <button onclick="editAppointment('${appointment._id}')">Editar</button>
+            <button onclick="deleteAppointment('${appointment._id}')">Excluir</button>
+            <button onclick="confirmAppointment('${appointment._id}')">Confirmar</button>
+          `;
+          row.appendChild(actionsCell);
 
-                    const valueCell = document.createElement('td');
-                    valueCell.textContent = `R$ ${parseFloat(appointment.totalValue || 0).toFixed(2)}`;
-                    row.appendChild(valueCell);
+          appointmentsList.appendChild(row);
+        });
+      } catch (error) {
+        console.error(error);
+        alert('Erro ao carregar agendamentos');
+      }
+    }
 
-                    const statusCell = document.createElement('td');
-                    statusCell.textContent = appointment.status || 'Pendente';
-                    row.appendChild(statusCell);
+    function editAppointment(id) {
+      alert('Função de edição ainda não implementada para ID: ' + id);
+    }
 
-                    const actionsCell = document.createElement('td');
-                    actionsCell.innerHTML = `
-                        <button onclick="editAppointment('${appointment._id}')">Editar</button>
-                        <button onclick="deleteAppointment('${appointment._id}')">Excluir</button>
-                        <button onclick="confirmAppointment('${appointment._id}')">Confirmar</button>
-                    `;
-                    row.appendChild(actionsCell);
+    function deleteAppointment(id) {
+      alert('Função de exclusão ainda não implementada para ID: ' + id);
+    }
 
-                    tbody.appendChild(row);
-                });
+    function confirmAppointment(id) {
+      alert('Função de confirmação ainda não implementada para ID: ' + id);
+    }
 
-            } catch (error) {
-                alert(error.message);
-            }
-        }
-
-        function editAppointment(id) {
-            window.location.href = `/appointments/edit.html?id=${id}`;
-        }
-
-        async function deleteAppointment(id) {
-            if (confirm('Tem certeza que deseja excluir este agendamento?')) {
-                try {
-                    const response = await fetch(`/api/appointments/${id}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                        }
-                    });
-
-                    if (!response.ok) throw new Error('Erro ao excluir agendamento');
-                    alert('Agendamento excluído com sucesso!');
-                    loadAppointments();
-                } catch (error) {
-                    alert(error.message);
-                }
-            }
-        }
-
-        async function confirmAppointment(id) {
-            try {
-                const response = await fetch(`/api/appointments/${id}/confirm`, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('token'),
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (!response.ok) throw new Error('Erro ao confirmar agendamento');
-                alert('Agendamento confirmado com sucesso!');
-                loadAppointments();
-            } catch (error) {
-                alert(error.message);
-            }
-        }
-
-        window.onload = loadAppointments;
-    </script>
+    fetchAppointments();
+  </script>
 </body>
 </html>
