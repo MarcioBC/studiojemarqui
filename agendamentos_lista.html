@@ -81,7 +81,18 @@
         <p>&copy; 2024 Meu Estúdio. Todos os direitos reservados.</p>
     </footer>
 
-    <script>
+  
+
+        <script>
+    function formatarData(dataString) {
+        const data = new Date(dataString);
+        return data.toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+    }
+
         // Funções JavaScript COPIADAS DO DASHBOARD.HTML
         function toggleSubmenu(element) {
             const submenu = element.nextElementSibling;
