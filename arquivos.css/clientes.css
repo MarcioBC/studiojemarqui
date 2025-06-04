@@ -117,7 +117,8 @@ input[type="tel"] {
     }
     .container {
         padding: 20px; /* Ajusta o padding para telas menores */
-        width: 95%; /* Ocupa mais largura em telas menores */
+        width: 90%; /* Ocupa mais largura em telas menores */
+        
     }
     h2 {
         font-size: 1.5em; /* Reduz o tamanho do título em telas menores */

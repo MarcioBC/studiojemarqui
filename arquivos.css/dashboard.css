@@ -154,17 +154,15 @@
 
     /* CARDS AGORA COM ROLAGEM HORIZONTAL NO MOBILE */
     .dashboard-cards {
-        /* display: flex; é herdado do desktop */
-        flex-direction: row;      /* Garante que os cards fiquem em linha */
-        flex-wrap: nowrap;        /* Impede que os cards quebrem para a próxima linha */
+        display: flex; 
+        flex-direction:column;      /* Garante que os cards fiquem em linha */
+        align-items: center;       /* Impede que os cards quebrem para a próxima linha */
         overflow-x: auto;         /* Habilita a rolagem horizontal se os cards não couberem */
         -webkit-overflow-scrolling: touch; /* Melhora a experiência de rolagem em iOS */
-        justify-content: flex-start; /* Alinha os cards ao início do contêiner */
+        justify-content:center; /* Alinha os cards ao início do contêiner */
         gap: 15px;                /* Espaçamento menor entre os cards na linha */
-        /* Remove align-items: center; se não desejar essa centralização vertical dos cards na linha */
-        padding-left: 15px;  /* Adiciona um padding para o primeiro card não colar na borda */
-        padding-right: 15px; /* Adiciona um padding para o último card não colar na borda ao rolar */
-        padding-bottom: 15px; /* Espaço para a barra de rolagem não sobrepor os cards */
+        margin: auto;/* Remove align-items: center; se não desejar essa centralização vertical dos cards na linha */
+        /* Espaço para a barra de rolagem não sobrepor os cards */
         box-sizing: border-box; /* Garante que o padding não aumente a largura total do container */
     }
 
@@ -179,17 +177,17 @@
     }
 
     .card .fas {
-        font-size: 4.5em; /* Ícone um pouco menor para o card menor */
+        font-size: 4.0em; /* Ícone um pouco menor para o card menor */
         bottom: 10px;    /* Ajusta posição do ícone */
         left: 10px;      /* Ajusta posição do ícone */
     }
      .card p {
-        font-size: 2em; /* Ajusta o tamanho do número no card menor */
+        font-size: 1em; /* Ajusta o tamanho do número no card menor */
     }
 
 
     .today-appointments h3 {
-        font-size: 20px;
+        font-size: 16px;
     }
     
     .appointments-table th,
@@ -229,7 +227,7 @@
     }
 
     .today-appointments h3 {
-        font-size: 1.4em;
+        font-size: 18px;
     }
 
     .appointments-table th,

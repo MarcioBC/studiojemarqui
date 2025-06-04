@@ -7,6 +7,7 @@ dayjs.extend(timezone);
 
 
 require('dotenv').config();
+const moment = require('moment-timezone');
 const express = require('express');
 // bodyParser foi removido, express.json() e express.urlencoded() são usados abaixo.
 const mongoose = require('mongoose');
@@ -133,7 +134,8 @@ app.post('/api/appointments', async (req, res) => {
         if (!clientId || !date || !time || !procedimentos || procedimentos.length === 0 || !valorTotal) {
             return res.status(400).json({ message: 'Todos os campos essenciais são obrigatórios.' });
         }
-        const appointmentDate = new Date(date + 'T00:00:00'); // Considerar fuso horário na criação se relevante
+        const appointmentDate = moment.tz(date, 'YYYY-MM-DD', 'America/Sao_Paulo').toDate();
+
         if (isNaN(appointmentDate.getTime())) {
             return res.status(400).json({ message: 'O formato da data fornecida é inválido.' });
         }
@@ -209,6 +211,7 @@ app.put('/api/appointments/:id', async (req, res) => {
     try {
         const appointmentData = req.body;
         if (appointmentData.date) { // Se a data estiver sendo atualizada
+
             //const newDate = new Date(appointmentData.date + 'T00:00:00'); // Considerar fuso horário
             const newDate = dayjs.tz(appointmentData.date, 'YYYY-MM-DD', 'America/Sao_Paulo').toDate();
 
