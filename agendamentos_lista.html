@@ -136,10 +136,10 @@
                     row.insertCell().textContent = agendamento.clientId ? agendamento.clientId.name : 'Cliente Desconhecido';
 
                     // Coluna 3: Data - Formatando a data VOU ALTERAR AQUI
-                    //const appointmentDate = new Date(agendamento.date);
-                    //const formattedDate = appointmentDate.toLocaleDateString('pt-BR');
-                    //row.insertCell().textContent = formattedDate;
-                    const formattedDate = agendamento.date.split('T')[0].split('-').reverse().join('/');
+                    const appointmentDate = new Date(agendamento.date);
+                    const formattedDate = appointmentDate.toLocaleDateString('pt-BR');
+                    row.insertCell().textContent = formattedDate;
+                    //const formattedDate = agendamento.date.split('T')[0].split('-').reverse().join('/');
 
 
                     // Coluna 4: Hora
